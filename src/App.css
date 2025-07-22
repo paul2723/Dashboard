@@ -1,42 +1,328 @@
-#root {
-  max-width: 1280px;
+/* src/App.css */
+
+/* --- Layout General --- */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.dashboard-content {
+  flex-grow: 1;
+  padding: 20px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  width: 100%; /* Asegura que ocupe el ancho disponible */
+}
+
+/* Ajustes para el grid en pantallas grandes */
+@media (min-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 2fr 1fr; /* Contenido principal más ancho, sidebar más estrecho */
+  }
+  .main-content {
+    order: 1; /* Asegura que el contenido principal vaya primero */
+  }
+  .sidebar {
+    order: 2; /* Asegura que la sidebar vaya después */
+  }
+}
+
+/* --- Componente Header --- */
+.header {
+  background-color: #3f51b5; /* Azul oscuro */
+  color: white;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.header-left p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-status span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.header-status .status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #4CAF50; /* Verde para 'En línea' */
+  margin-right: 5px;
+}
+
+.header-icon-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* --- InfoBar Component --- */
+.info-bar {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+  justify-content: space-around;
+  background-color: #e3f2fd; /* Azul muy claro */
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  gap: 15px; /* Espacio entre los elementos */
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+}
+
+.info-item .icon {
+  margin-right: 8px;
+  color: #555;
+}
+
+.live-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ff0000; /* Rojo para 'En vivo' */
+  margin-right: 5px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- Card Component --- */
+.card-title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #444;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.card-content {
+  /* Estilos para el contenido de la tarjeta */
+}
+
+/* --- LocationSelector Component --- */
+.location-selector {
   text-align: center;
+  margin-bottom: 20px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.location-selector h3 {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.location-selector p {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3f51b5; /* Azul similar al header */
+  margin-top: 0;
+}
+
+.location-selector-button {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 15px auto 0;
+}
+
+.location-selector-button:hover {
+  background-color: #303f9f; /* Azul más oscuro al pasar el ratón */
+}
+
+.location-selector-button .icon {
+  margin-right: 8px;
+}
+
+/* --- AlertsSection & AlertCard Components --- */
+.alerts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.alert-card {
+  display: flex;
+  align-items: center;
+  background-color: #fff3e0; /* Naranja muy claro para alertas */
+  border-left: 5px solid #ff9800; /* Naranja más oscuro */
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.alert-card.level-media {
+  border-left-color: #ff9800; /* Naranja */
+}
+
+.alert-card.level-alta {
+  border-left-color: #f44336; /* Rojo */
+  background-color: #ffebee;
+}
+
+.alert-card.level-baja {
+  border-left-color: #2196f3; /* Azul */
+  background-color: #e3f2fd;
+}
+
+.alert-card .alert-icon {
+  margin-right: 15px;
+  color: #ff9800;
+  font-size: 24px;
+}
+
+.alert-card.level-media .alert-icon { color: #ff9800; }
+.alert-card.level-alta .alert-icon { color: #f44336; }
+.alert-card.level-baja .alert-icon { color: #2196f3; }
+
+
+.alert-details {
+  flex-grow: 1; /* Permite que los detalles ocupen el espacio disponible */
+}
+
+.alert-details h4 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.alert-details p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.alert-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Alinea el nivel y la hora a la derecha */
+  margin-left: 15px; /* Espacio entre los detalles y la meta */
+}
+
+.alert-level {
+  background-color: #ff9800; /* Naranja */
+  color: white;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 5px; /* Espacio entre nivel y hora */
+}
+
+.alert-level.level-media { background-color: #ff9800; }
+.alert-level.level-alta { background-color: #f44336; }
+.alert-level.level-baja { background-color: #2196f3; }
+
+.alert-time {
+  font-size: 12px;
+  color: #777;
+}
+
+
+/* --- ConditionsSection & ConditionCard Components --- */
+.conditions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center; /* Centra las tarjetas si hay menos de las que llenan la fila */
+}
+
+.condition-card {
+  flex: 1 1 calc(50% - 15px); /* Dos columnas en pantallas medianas */
+  min-width: 280px; /* Ancho mínimo para la tarjeta */
+  background-color: #e8f5e9; /* Verde muy claro para condiciones favorables */
+  border-left: 5px solid #4CAF50; /* Verde más oscuro */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .condition-card {
+    flex: 1 1 calc(33% - 15px); /* Tres columnas en pantallas más grandes */
   }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.condition-card .condition-icon {
+  margin-right: 15px;
+  color: #4CAF50;
+  font-size: 24px;
 }
 
-.card {
-  padding: 2em;
+.condition-details h4 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  color: #333;
 }
 
-.read-the-docs {
-  color: #888;
+.condition-details p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.condition-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4CAF50;
+  margin-left: auto;
 }
