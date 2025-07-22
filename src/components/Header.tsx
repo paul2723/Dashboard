@@ -1,9 +1,9 @@
-
+// src/components/Header.tsx
 import React from 'react';
 import Icon from './Icon';
-import '../App.css'; // Importa los estilos
+import '../App.css';
 
-const Header = () => {
+const Header: React.FC = () => { // Usamos React.FC para componentes funcionales
   return (
     <header className="header">
       <div className="header-left">

@@ -1,4 +1,3 @@
-// src/components/InfoBar.jsx
 // src/components/InfoBar.tsx
 import React from 'react';
 import Icon from './Icon';

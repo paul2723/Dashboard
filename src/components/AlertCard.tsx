@@ -1,9 +1,15 @@
-// src/components/AlertCard.jsx
+// src/components/AlertCard.tsx
 import React from 'react';
 import Icon from './Icon';
-import '../App.css'; // Importa los estilos
+import '../App.css';
+import type { Alert } from '../App'; // Importar la interfaz Alert
 
-const AlertCard = ({ alert }) => {
+// Interfaz para las props de AlertCard
+interface AlertCardProps {
+  alert: Alert;
+}
+
+const AlertCard: React.FC<AlertCardProps> = ({ alert }) => {
   // Mapear el nivel de la alerta a una clase CSS para el color
   const levelClass = `level-${alert.level.toLowerCase()}`;
 
@@ -14,7 +20,10 @@ const AlertCard = ({ alert }) => {
         <h4>{alert.type} - {alert.location}</h4>
         <p>{alert.description}</p>
       </div>
-      <span className={`alert-level ${levelClass}`}>{alert.level}</span>
+      <div className="alert-meta">
+        <span className={`alert-level ${levelClass}`}>{alert.level}</span>
+        {alert.time && <span className="alert-time">{alert.time}</span>}
+      </div>
     </li>
   );
 };

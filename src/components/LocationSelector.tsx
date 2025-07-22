@@ -1,10 +1,15 @@
-// src/components/LocationSelector.jsx
+// src/components/LocationSelector.tsx
 import React from 'react';
 import Icon from './Icon';
-import Card from './Card'; // Reutilizamos el componente Card
-import '../App.css'; // Importa los estilos
+import Card from './Card';
+import '../App.css';
 
-const LocationSelector = ({ currentLocation }) => {
+// Interfaz para las props de LocationSelector
+interface LocationSelectorProps {
+  currentLocation: string;
+}
+
+const LocationSelector: React.FC<LocationSelectorProps> = ({ currentLocation }) => {
   return (
     <Card className="location-selector">
       <h3>Selector de Ubicación</h3>
