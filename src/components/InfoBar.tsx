@@ -1,34 +1,37 @@
 import React from 'react';
+import Card from './Card';
 import Icon from './Icon';
-import '../App.css';
+import type { LocationName } from '../types/DashboardTypes';
 
 interface InfoBarProps {
-  lastUpdate: string;
-  isLive: boolean;
-  sunrise: string | undefined; 
-  sunset: string | undefined; 
+  location: LocationName;
+  temperature: number;
+  humidity: number;
+  windSpeed: number;
 }
 
-const InfoBar: React.FC<InfoBarProps> = ({ lastUpdate, isLive, sunrise, sunset }) => {
+const InfoBar: React.FC<InfoBarProps> = ({ location, temperature, humidity, windSpeed }) => {
   return (
-    <div className="info-bar">
-      <div className="info-item">
-        <Icon name="info" size={18} className="icon" />
-        <span>Última actualización: {lastUpdate ? new Date(lastUpdate).toLocaleString('es-ES') : 'N/A'}</span>
+    <Card className="info-bar-card">
+      <div className="info-bar-content">
+        <div className="info-item">
+          <Icon name="location" />
+          <span>{location}</span>
+        </div>
+        <div className="info-item">
+          <Icon name="temperature" />
+          <span>{temperature.toFixed(1)}°C</span>
+        </div>
+        <div className="info-item">
+          <Icon name="humidity" />
+          <span>{humidity.toFixed(0)}% Humedad</span>
+        </div>
+        <div className="info-item">
+          <Icon name="wind" />
+          <span>{windSpeed.toFixed(1)} km/h Viento</span>
+        </div>
       </div>
-      <div className="info-item">
-        {isLive && <span className="live-indicator"></span>}
-        <span>Datos en vivo</span>
-      </div>
-      <div className="info-item">
-        <Icon name="sunrise" size={18} className="icon" />
-        <span>Salida del sol: {sunrise ? new Date(sunrise).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</span>
-      </div>
-      <div className="info-item">
-        <Icon name="sunset" size={18} className="icon" />
-        <span>Puesta del sol: {sunset ? new Date(sunset).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</span>
-      </div>
-    </div>
+    </Card>
   );
 };
 

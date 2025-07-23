@@ -1,5 +1,7 @@
+// src/types/DashboardTypes.tsx
+
 export interface Alert {
-  id: string; 
+  id: string;
   type: string;
   message: string;
   level: string;
@@ -8,11 +10,11 @@ export interface Alert {
 }
 
 export interface Condition {
-  id: string; 
+  id: string;
   type: string;
   description: string;
   level: string;
-  time?: string; 
+  time?: string;
   location: string;
 }
 
@@ -27,7 +29,6 @@ export interface KeyIndicator {
   bgColor?: string;
   textColor?: string;
 }
-
 
 export interface CurrentData {
   time: string;
@@ -54,6 +55,13 @@ export interface HourlyData {
   wind_speed_10m?: number[];
   wind_direction_10m?: number[];
 }
+
+export interface ChartHourlyData {
+  time: string;
+  temperature_2m: number | null;
+  precipitation: number | null;
+}
+
 
 export interface DailyData {
   time: string[];
@@ -87,10 +95,12 @@ export interface Location {
   longitude: number;
   timezone: string;
 }
+
 export type LocationName = "Pichincha" | "Guayas" | "Azuay" | "Manabí" | "El Oro" | "Loja";
 
 export interface LocationSelectorProps {
   currentLocationName: LocationName;
   onLocationChange: (locationName: LocationName) => void;
   availableLocations: { [key in LocationName]: Location };
+  hourlyData?: HourlyData;
 }

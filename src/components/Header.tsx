@@ -1,5 +1,6 @@
+// src/components/Header.tsx
 import React from 'react';
-import Icon from './Icon'; // Asegúrate de que tu componente Icon esté disponible
+import Icon from './Icon';
 
 interface HeaderProps {
   lastUpdate: string;
@@ -8,7 +9,6 @@ interface HeaderProps {
   isConnecting: boolean;
   hasError: boolean;
   onRefresh: () => void;
-  // ELIMINADO: onOpenSettings: () => void; // Ya no se necesita esta prop
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -18,7 +18,6 @@ const Header: React.FC<HeaderProps> = ({
   isConnecting,
   hasError,
   onRefresh,
-  // ELIMINADO: onOpenSettings, // Ya no se desestructura esta prop
 }) => {
   const statusClass = isConnecting ? 'status-connecting' : (hasError ? 'status-error' : 'status-online');
   const statusText = isConnecting ? 'Conectando...' : (hasError ? 'Error' : 'En línea');
@@ -55,12 +54,11 @@ const Header: React.FC<HeaderProps> = ({
             <Icon name="refresh" />
             Actualizar
           </button>
-          {/* Imagen de sol: se quitó cursor: 'pointer' */}
           <img
             src="/dashboard/public/sol2.png"
             alt="Sol"
             className="sun-logo-header"
-            style={{ width: '30px', height: '30px' }} // ELIMINADO: cursor: 'pointer'
+            style={{ width: '30px', height: '30px' }}
           />
         </div>
       </div>
@@ -69,4 +67,3 @@ const Header: React.FC<HeaderProps> = ({
 };
 
 export default Header;
-

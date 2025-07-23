@@ -1,25 +1,27 @@
 import React from 'react';
+import Card from './Card';
 import Icon from './Icon';
-import type { Alert } from '../types/DashboardTypes'; 
 
 interface AlertCardProps {
-  alert: Alert;
+  type: 'warning' | 'danger' | 'info' | 'success';
+  title: string;
+  message: string;
+  onClose: () => void;
 }
 
-const AlertCard: React.FC<AlertCardProps> = ({ alert }) => {
-  const levelClass = `level-${alert.level.toLowerCase()}`;
+const AlertCard: React.FC<AlertCardProps> = ({ type, title, message, onClose }) => {
+  const alertClass = `alert-card alert-type-${type}`;
+
   return (
-    <li className={`alert-card ${levelClass}`}>
+    <Card className={alertClass}>
       <div className="alert-header">
-        <span className="alert-type">{alert.type}</span>
-        <span className={`alert-level ${levelClass}`}>{alert.level}</span>
-        <span className="alert-time">{alert.time}</span>
+        <h3>{title}</h3>
+        <button className="alert-close-button" onClick={onClose}>
+          <Icon name="close" />
+        </button>
       </div>
-      <p className="alert-message">{alert.message}</p>
-      <div className="alert-location">
-        <Icon name="location-pin" /> {alert.location}
-      </div>
-    </li>
+      <p>{message}</p>
+    </Card>
   );
 };
 

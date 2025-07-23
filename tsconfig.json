@@ -1,7 +1,44 @@
 {
-  "files": [],
+  "compilerOptions": {
+    /* Configuración básica */
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    
+    /* Configuración para composite */
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,  // Requerido para allowImportingTsExtensions
+    
+    /* Resolución de módulos */
+    "moduleResolution": "bundler",  // Obligatorio para allowImportingTsExtensions
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    
+    /* Emisión */
+    "outDir": "./dist",
+    "sourceMap": true,
+    
+    /* Checks de tipo */
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    
+    /* Rutas */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules"],
   "references": [
-    { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ]
 }

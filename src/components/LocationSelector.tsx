@@ -1,10 +1,10 @@
+// src/components/LocationSelector.tsx
 import React from 'react';
 import Card from './Card';
 import Icon from './Icon';
-import Chart from './Chart'; 
-import type { LocationSelectorProps, Location, LocationName, HourlyData } from '../types/DashboardTypes'; // Asegúrate de importar HourlyData
+import TemperatureHumidityChart from './TemperatureHumidityChart';
+import type { LocationSelectorProps, Location, LocationName, HourlyData } from '../types/DashboardTypes';
 
-// Extiende las props para incluir hourlyData
 interface LocationSelectorExtendedProps extends LocationSelectorProps {
   hourlyData: HourlyData | undefined;
 }
@@ -13,12 +13,12 @@ const LocationSelector: React.FC<LocationSelectorExtendedProps> = ({
   currentLocationName,
   onLocationChange,
   availableLocations,
-  hourlyData, // Recibir hourlyData como prop
+  hourlyData,
 }) => {
   const selectedLocationData: Location | undefined = availableLocations[currentLocationName];
 
   return (
-    <> {/* Usamos un fragmento para envolver múltiples elementos */}
+    <>
       <Card title="Selector de Ubicación">
         <div className="location-info">
           <div className="location-item">
@@ -44,11 +44,9 @@ const LocationSelector: React.FC<LocationSelectorExtendedProps> = ({
         )}
       </Card>
 
-      {/* Nuevo gráfico en la barra lateral */}
-      <Chart hourlyData={hourlyData} /> {/* Usar el componente Chart */}
+      <TemperatureHumidityChart hourlyData={hourlyData} />
     </>
   );
 };
 
 export default LocationSelector;
-

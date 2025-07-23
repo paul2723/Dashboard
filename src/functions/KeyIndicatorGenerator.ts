@@ -1,3 +1,4 @@
+// src/functions/KeyIndicatorGenerator.ts
 import type { CurrentData, DailyData, KeyIndicator } from '../types/DashboardTypes';
 
 export const generateKeyIndicators = (
@@ -15,11 +16,11 @@ export const generateKeyIndicators = (
         indicators.push({
             id: 'temp-actual',
             label: 'Temperatura Actual',
-            value: `${tempActual.toFixed(0)}`, 
+            value: `${tempActual.toFixed(0)}`,
             unit: '°C',
-            change: current?.is_day === 1 ? 'Día' : 'Noche', 
+            change: current?.is_day === 1 ? 'Día' : 'Noche',
             icon: 'temperature',
-            gradient: 'linear-gradient(135deg, #ff7043, #ff4d4d)', 
+            gradient: 'linear-gradient(135deg, #ff7043, #ff4d4d)',
         });
     }
 
@@ -30,13 +31,12 @@ export const generateKeyIndicators = (
             label: 'Humedad Relativa',
             value: `${humidity.toFixed(0)}`,
             unit: '%',
-            change: 'Normal', 
+            change: 'Normal',
             icon: 'humidity',
-            gradient: 'linear-gradient(135deg, #29b6f6, #0288d1)', 
+            gradient: 'linear-gradient(135deg, #29b6f6, #0288d1)',
         });
     }
 
-    // 3. Presión Atmosférica
     const pressure = getSafeNumericValue(current, 'pressure_msl');
     if (pressure !== undefined) {
         indicators.push({
@@ -44,9 +44,9 @@ export const generateKeyIndicators = (
             label: 'Presión Atmosférica',
             value: `${pressure.toFixed(0)}`,
             unit: 'hPa',
-            change: 'Estable', 
-            icon: 'pressure', 
-            gradient: 'linear-gradient(135deg, #ab47bc, #7b1fa2)', 
+            change: 'Estable',
+            icon: 'pressure',
+            gradient: 'linear-gradient(135deg, #ab47bc, #7b1fa2)',
         });
     }
 
@@ -55,11 +55,11 @@ export const generateKeyIndicators = (
         indicators.push({
             id: 'wind-speed',
             label: 'Velocidad del Viento',
-            value: `${windSpeed.toFixed(0)}`, // Redondea a entero
+            value: `${windSpeed.toFixed(0)}`,
             unit: 'km/h',
-            change: 'Moderado', // Ejemplo
-            icon: 'wind', 
-            gradient: 'linear-gradient(135deg, #66bb6a, #388e3c)', 
+            change: 'Moderado',
+            icon: 'wind',
+            gradient: 'linear-gradient(135deg, #66bb6a, #388e3c)',
         });
     }
 
@@ -72,7 +72,7 @@ export const generateKeyIndicators = (
             unit: '°C',
             change: '',
             icon: 'temperature',
-            gradient: 'linear-gradient(135deg, #fbc02d, #f9a825)', // Amarillo
+            gradient: 'linear-gradient(135deg, #fbc02d, #f9a825)',
         });
     }
 
@@ -85,7 +85,7 @@ export const generateKeyIndicators = (
             unit: '°C',
             change: '',
             icon: 'temperature',
-            gradient: 'linear-gradient(135deg, #42a5f5, #1976d2)', // Azul
+            gradient: 'linear-gradient(135deg, #42a5f5, #1976d2)',
         });
     }
 

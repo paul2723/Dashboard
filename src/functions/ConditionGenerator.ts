@@ -1,23 +1,20 @@
+// src/functions/ConditionGenerator.ts
 import type { Condition, CurrentData } from '../types/DashboardTypes';
 
-// La función ahora espera 3 argumentos: current, hourly, y currentLocationName
 export const generateConditions = (
   current: CurrentData,
-  // ELIMINADO: hourly ya no se usa directamente en esta función
-  // hourly: HourlyData, // Comentado o eliminado para resolver TS6133
-  currentLocationName: string // Tercer argumento esperado
+  currentLocationName: string
 ): Condition[] => {
   const conditions: Condition[] = [];
 
-  const currentLocation = currentLocationName; // Usamos el nombre de la ubicación pasado como argumento
+  const currentLocation = currentLocationName;
 
-  // Ejemplo de reglas de condiciones
   if (current.temperature_2m >= 20 && current.temperature_2m <= 28 && current.precipitation === 0) {
     conditions.push({
       id: `cond-pleasant-temp-${Date.now()}-1`,
       type: 'Temperatura Agradable',
       description: `Disfruta de una temperatura ideal de ${current.temperature_2m}°C.`,
-      level: 'Baja', // 'Baja' para condiciones favorables
+      level: 'Baja',
       location: currentLocation,
     });
   }
@@ -53,7 +50,6 @@ export const generateConditions = (
     });
   }
 
-  // Alertas (ejemplo, si las condiciones son más severas)
   if (current.temperature_2m > 30) {
     conditions.push({
       id: `alert-temp-high-${Date.now()}-1`,

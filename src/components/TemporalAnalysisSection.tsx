@@ -1,3 +1,4 @@
+// src/components/TemporalAnalysisSection.tsx
 import React, { useMemo } from 'react';
 import Card from './Card';
 import type { HourlyData, CurrentData } from '../types/DashboardTypes';
@@ -125,4 +126,3 @@ const TemporalAnalysisSection: React.FC<TemporalAnalysisSectionProps> = ({ hourl
 };
 
 export default TemporalAnalysisSection;
-
