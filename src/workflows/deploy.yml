@@ -38,4 +38,4 @@ jobs:
           publish_branch: main # Los archivos se publicarán en la rama 'main' de tu repositorio.
           force_orphan: true # Asegura un historial de commits limpio para la rama de despliegue.
           destination_dir: docs # ¡IMPORTANTE! Los archivos de 'dist' se colocarán dentro de una carpeta 'docs' en la rama 'main'.
-          # enable_jekyll: false # Ya no es estrictamente necesario si creamos el archivo manualmente, pero no hace daño dejarlo.
+          enable_jekyll: false # Ya no es estrictamente necesario si creamos el archivo manualmente, pero no hace daño dejarlo.
