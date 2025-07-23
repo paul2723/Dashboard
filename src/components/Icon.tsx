@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-
+import React from 'react';
 interface IconProps {
   name: string;
   size?: number;
