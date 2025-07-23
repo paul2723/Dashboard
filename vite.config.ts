@@ -1,37 +1,29 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  // Configuración base dinámica (local vs producción)
   base: process.env.NODE_ENV === 'production' ? '/sky-view-reports/' : './',
-  
   plugins: [react()],
-  
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    sourcemap: true, // Opcional para depuración
     rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'src/main.tsx')
+      },
       output: {
-        // Optimización nombres de archivos
+        // Configuración corregida:
+        entryFileNames: '[name].js',
+        chunkFileNames: 'chunks/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash][extname]',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js'
+        // Mantener estructura de directorios sin preserveModules
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        }
       }
-    }
-  },
-  
-  // Configuración del servidor de desarrollo
-  server: {
-    port: 3000,
-    open: true // Abre navegador automáticamente
-  },
-  
-  // Resolución de alias (opcional)
-  resolve: {
-    alias: {
-      '@': '/src' // Permite usar importaciones como '@/components'
     }
   }
 });

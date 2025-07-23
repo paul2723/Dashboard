@@ -1,14 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "composite": true,
-    "outDir": "./dist",
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "noEmit": false,  // Asegúrate que esto sea false
-    "emitDeclarationOnly": false,  // Debe ser false para generar JS
-    "declaration": true,  // Opcional: si quieres los .d.ts
-    "sourceMap": true  // Opcional: para mapas de fuente
+    "outDir": "./dist-tsc",  // Cambiado para evitar conflicto con Vite
+    "noEmit": false,
+    "emitDeclarationOnly": false,
+    "declaration": false,
+    "sourceMap": true,
+    "jsx": "react-jsx"
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
