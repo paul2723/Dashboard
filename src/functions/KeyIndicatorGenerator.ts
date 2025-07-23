@@ -35,7 +35,7 @@ export const generateKeyIndicators = (
         indicators.push({
             id: 'humidity',
             label: 'Humedad Relativa',
-            value: `${humidity.toFixed(0)}`, // Redondea a entero
+            value: `${humidity.toFixed(0)}`,
             unit: '%',
             change: 'Normal', // Ejemplo
             icon: 'humidity', // Asegúrate de que este icono existe en Icon.tsx
@@ -44,17 +44,16 @@ export const generateKeyIndicators = (
     }
 
     // 3. Presión Atmosférica
-    // Nota: Similar a la humedad, revisa si 'current.pressure_msl' está disponible.
     const pressure = getSafeNumericValue(current, 'pressure_msl');
     if (pressure !== undefined) {
         indicators.push({
             id: 'pressure',
             label: 'Presión Atmosférica',
-            value: `${pressure.toFixed(0)}`, // Redondea a entero
+            value: `${pressure.toFixed(0)}`,
             unit: 'hPa',
             change: 'Estable', // Ejemplo
             icon: 'pressure', // Asegúrate de que este icono existe en Icon.tsx
-            gradient: 'linear-gradient(135deg, #ab47bc, #8e24aa)', // Morado a Rosa oscuro
+            gradient: 'linear-gradient(135deg, #ab47bc, #7b1fa2)', // Morado a Morado oscuro
         });
     }
 
@@ -95,7 +94,7 @@ export const generateKeyIndicators = (
             unit: '°C',
             change: '',
             icon: 'temperature',
-            gradient: 'linear-gradient(135deg, #81d4fa, #4fc3f7)', // Azul claro
+            gradient: 'linear-gradient(135deg, #42a5f5, #1976d2)', // Azul
         });
     }
 

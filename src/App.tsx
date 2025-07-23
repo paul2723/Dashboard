@@ -1,10 +1,12 @@
 // src/App.tsx
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
-import InfoBar from './components/InfoBar';
+import Card from './components/Card';
+// import InfoBar from './components/InfoBar'; // Asegúrate de que esta línea esté comentada o eliminada
+
 import LocationSelector from './components/LocationSelector';
 import ConditionsSection from './components/ConditionsSection';
-import KeyIndicatorsSection from './components/KeyIndicatorsSection'; 
+import KeyIndicatorsSection from './components/KeyIndicatorsSection';
 import TemporalAnalysisSection from './components/TemporalAnalysisSection';
 
 import { useDataFetcher } from './functions/DataFetcher';
@@ -15,9 +17,9 @@ import type {
   KeyIndicator,
   CurrentData,
   HourlyData,
-  Location, 
+  Location,
   LocationName
-} from './types/DashboardTypes'; // 
+} from './types/DashboardTypes';
 
 import { generateConditions } from './functions/ConditionGenerator';
 import { generateKeyIndicators } from './functions/KeyIndicatorGenerator';
@@ -26,16 +28,16 @@ import './index.css';
 import './App.css';
 
 function App() {
-  // Y asegúrate de que el tipo en predefinedLocations sea 'Location'
-  const predefinedLocations: { [key in LocationName]: Location } = { // <--- Y AQUÍ
-    "Guayaquil, Ecuador": { latitude: -2.1962, longitude: -79.8862, timezone: "America/Guayaquil" },
-    "Bogotá, Colombia": { latitude: 4.7110, longitude: -74.0721, timezone: "America/Bogota" },
-    "Buenos Aires, Argentina": { latitude: -34.6037, longitude: -58.3816, timezone: "America/Argentina/Buenos_Aires" },
-    "Lima, Perú": { latitude: -12.0464, longitude: -77.0428, timezone: "America/Lima" },
-    "Santiago, Chile": { latitude: -33.4489, longitude: -70.6891, timezone: "America/Santiago" },
+  const predefinedLocations: { [key in LocationName]: Location } = {
+    "Pichincha": { latitude: -0.2252, longitude: -78.5249, timezone: "America/Guayaquil" }, // Quito
+    "Guayas": { latitude: -2.1962, longitude: -79.8862, timezone: "America/Guayaquil" }, // Guayaquil
+    "Azuay": { latitude: -2.9000, longitude: -79.0000, timezone: "America/Guayaquil" }, // Cuenca
+    "Manabí": { latitude: -0.9500, longitude: -80.7333, timezone: "America/Guayaquil" }, // Portoviejo
+    "El Oro": { latitude: -3.2500, longitude: -79.9667, timezone: "America/Guayaquil" }, // Machala
+    "Loja": { latitude: -4.0000, longitude: -79.2000, timezone: "America/Guayaquil" }, // Loja
   };
 
-  const [currentLocationName, setCurrentLocationName] = useState<LocationName>("Guayaquil, Ecuador");
+  const [currentLocationName, setCurrentLocationName] = useState<LocationName>("Guayas"); // Establecer una provincia inicial
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const { latitude, longitude, timezone } = predefinedLocations[currentLocationName];
@@ -47,13 +49,27 @@ function App() {
 
   useEffect(() => {
     if (weatherData && weatherData.current && weatherData.daily && weatherData.hourly) {
-      setConditions(generateConditions(weatherData.current, weatherData.hourly));
+      // ¡CORREGIDO: Pasar currentLocationName como tercer argumento!
+      setConditions(generateConditions(weatherData.current, weatherData.hourly, currentLocationName));
+      // ¡CORREGIDO: Asegurarse de que generateKeyIndicators reciba solo 2 argumentos si esa es su firma!
       setKeyIndicators(generateKeyIndicators(weatherData.current, weatherData.daily));
     } else {
       setConditions([]);
       setKeyIndicators([]);
     }
-  }, [weatherData]);
+  }, [weatherData, currentLocationName]); // Añadir currentLocationName a las dependencias
+
+  // Este useEffect es para depurar el valor de weatherData.current.time
+  useEffect(() => {
+    if (weatherData?.current?.time) {
+      console.log("[App.tsx] Valor de weatherData.current.time (original):", weatherData.current.time);
+      const testDate = new Date(weatherData.current.time);
+      console.log("[App.tsx] new Date(time) es válido:", !isNaN(testDate.getTime()));
+    } else {
+      console.log("[App.tsx] weatherData.current.time es undefined, null o vacío.");
+    }
+  }, [weatherData?.current?.time]);
+
 
   const handleLocationChange = (newLocationName: LocationName) => {
     if (Object.keys(predefinedLocations).includes(newLocationName)) {
@@ -67,9 +83,35 @@ function App() {
     setRefreshTrigger(prev => prev + 1);
   }, []);
 
-  const lastUpdate = weatherData?.current?.time || new Date().toISOString();
-  const sunrise = weatherData?.daily?.sunrise?.[0];
-  const sunset = weatherData?.daily?.sunset?.[0];
+  const lastUpdate = (weatherData?.current?.time && weatherData.current.time !== '' && !isNaN(new Date(weatherData.current.time).getTime()))
+    ? new Date(weatherData.current.time).toLocaleString('es-ES', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      })
+    : 'N/A';
+
+  // Formatear sunrise y sunset para mostrar solo la hora
+  const formatTime = (isoString: string | undefined) => {
+    // Asegurarse de que la cadena no sea vacía y sea una fecha válida
+    if (isoString && isoString !== '' && !isNaN(new Date(isoString).getTime())) {
+      return new Date(isoString).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    }
+    return 'N/A';
+  };
+
+  const sunrise = formatTime(weatherData?.daily?.sunrise?.[0]);
+  const sunset = formatTime(weatherData?.daily?.sunset?.[0]);
+
+  // Nuevo useEffect para depurar los valores formateados de sunrise y sunset
+  useEffect(() => {
+    console.log("[App.tsx] Sunrise formateado:", sunrise);
+    console.log("[App.tsx] Sunset formateado:", sunset);
+  }, [sunrise, sunset]);
+
 
   if (loading && !weatherData) {
     return <div className="loading-screen">Cargando datos del clima...</div>;
@@ -90,12 +132,10 @@ function App() {
         onRefresh={handleRefresh}
       />
       <div className="dashboard-content">
-        <InfoBar
-          lastUpdate={lastUpdate}
-          isLive={true}
-          sunrise={sunrise}
-          sunset={sunset}
-        />
+        <Card className="analysis-subtitle-card">
+          <h2 className="analysis-subtitle">Análisis meteorológico en tiempo real</h2>
+        </Card>
+
         <div className="dashboard-grid">
           <div className="main-content">
             <ConditionsSection conditions={conditions} />
@@ -112,6 +152,7 @@ function App() {
               currentLocationName={currentLocationName}
               onLocationChange={handleLocationChange}
               availableLocations={predefinedLocations}
+              hourlyData={weatherData?.hourly}
             />
           </aside>
         </div>

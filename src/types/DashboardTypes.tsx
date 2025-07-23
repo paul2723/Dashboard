@@ -14,21 +14,22 @@ export interface Condition {
   type: string;
   description: string;
   level: string;
-  time: string;
+  time?: string; // Hacemos opcional si ya no lo usas en el generador
   location: string;
 }
 
 export interface KeyIndicator {
   id: string;
-  label: string; // <-- Asegúrate de que existe
+  label: string;
   value: string;
   unit: string;
-  change?: string; // Hacemos opcional si no siempre lo usas
-  icon: string; // Nombre del icono para tu componente Icon.tsx
-  gradient: string; // Para el fondo de gradiente
-  bgColor?: string; // Opcional, si usas un color sólido en vez de gradiente
-  textColor?: string; // Opcional: para controlar el color del texto si el fondo es variable
+  change?: string;
+  icon: string;
+  gradient: string;
+  bgColor?: string;
+  textColor?: string;
 }
+
 
 export interface CurrentData {
   time: string;
@@ -55,6 +56,7 @@ export interface HourlyData {
   wind_speed_10m?: number[];
   wind_direction_10m?: number[];
 }
+
 export interface DailyData {
   time: string[];
   weather_code: number[];
@@ -75,7 +77,7 @@ export interface OpenMeteoResponse {
   timezone_abbreviation: string;
   elevation: number;
   current_units: any;
-  current: CurrentData; // Corregido a 'current'
+  current: CurrentData;
   hourly_units: any;
   hourly: HourlyData;
   daily_units: any;
@@ -88,13 +90,11 @@ export interface Location {
   timezone: string;
 }
 
-// ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ NUEVA LÍNEA AÑADIDA AQUÍ ABAJO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-export type LocationName = "Guayaquil, Ecuador" | "Bogotá, Colombia" | "Buenos Aires, Argentina" | "Lima, Perú" | "Santiago, Chile"; 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+// ¡ACTUALIZADO: Tipo LocationName con las provincias de Ecuador!
+export type LocationName = "Pichincha" | "Guayas" | "Azuay" | "Manabí" | "El Oro" | "Loja";
 
 export interface LocationSelectorProps {
-  currentLocationName: string; 
-  onLocationChange: (locationName: string) => void;
-  availableLocations: { [key: string]: Location };
+  currentLocationName: LocationName;
+  onLocationChange: (locationName: LocationName) => void;
+  availableLocations: { [key in LocationName]: Location };
 }
