@@ -54,12 +54,6 @@ const Header: React.FC<HeaderProps> = ({
             <Icon name="refresh" />
             Actualizar
           </button>
-          <img
-            src="/dashboard/public/sol2.png"
-            alt="Sol"
-            className="sun-logo-header"
-            style={{ width: '30px', height: '30px' }}
-          />
         </div>
       </div>
     </header>
