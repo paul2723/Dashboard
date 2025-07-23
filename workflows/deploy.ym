@@ -1,0 +1,38 @@
+# .github/workflows/deploy.yml
+# Este archivo define un flujo de trabajo de GitHub Actions para desplegar tu aplicación.
+
+name: Deploy to GitHub Pages # Nombre del flujo de trabajo
+
+on:
+  push:
+    branches:
+      - main # Este flujo de trabajo se ejecutará cada vez que se haga un push a la rama 'main'.
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # El trabajo se ejecutará en una máquina virtual Ubuntu.
+
+    steps:
+      - name: Checkout repository # Paso 1: Clona tu repositorio de GitHub.
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js # Paso 2: Configura el entorno de Node.js.
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Especifica la versión de Node.js a usar.
+
+      - name: Install dependencies # Paso 3: Instala todas las dependencias de tu proyecto.
+        run: npm install
+
+      - name: Build project # Paso 4: Compila tu aplicación Vite. Esto creará la carpeta 'dist'.
+        run: npm run build
+
+      - name: Deploy to GitHub Pages # Paso 5: Despliega los archivos compilados a GitHub Pages.
+        uses: peaceiris/actions-gh-pages@v3 # Utiliza una acción de terceros para simplificar el despliegue.
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Token de GitHub para autenticación (proporcionado automáticamente).
+          publish_dir: ./dist # Indica que la carpeta a publicar es 'dist' (la salida de tu build de Vite).
+          publish_branch: main # Los archivos se publicarán en la rama 'main' de tu repositorio.
+          force_orphan: true # Asegura un historial de commits limpio para la rama de despliegue.
+          destination_dir: docs # ¡IMPORTANTE! Los archivos de 'dist' se colocarán dentro de una carpeta 'docs' en la rama 'main'.
+          enable_jekyll: false # ¡CRUCIAL! Esto crea un archivo .nojekyll, indicando a GitHub Pages que NO use Jekyll.
