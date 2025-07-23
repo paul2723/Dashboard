@@ -1,7 +1,6 @@
 // src/components/ConditionsSection.tsx
 import React from 'react';
 import Card from './Card';
-import Icon from './Icon';
 import type { Condition } from '../types/DashboardTypes';
 
 interface ConditionsSectionProps {

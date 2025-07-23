@@ -1,27 +1,15 @@
 {
   "compilerOptions": {
-    /* Configuración básica */
     "target": "ESNext",
     "module": "ESNext",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     
-    /* Configuración para composite */
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,  // Requerido para allowImportingTsExtensions
-    
     /* Resolución de módulos */
-    "moduleResolution": "bundler",  // Obligatorio para allowImportingTsExtensions
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    
-    /* Emisión */
-    "outDir": "./dist",
-    "sourceMap": true,
     
     /* Checks de tipo */
     "strict": true,
@@ -36,9 +24,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules"],
-  "references": [
-    { "path": "./tsconfig.node.json" }
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
