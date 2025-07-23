@@ -27,7 +27,7 @@ jobs:
       - name: Build project # Paso 4: Compila tu aplicación Vite. Esto creará la carpeta 'dist'.
         run: npm run build
 
-      - name: Add .nojekyll file # ¡NUEVO PASO! Crea el archivo .nojekyll en la carpeta de build.
+      - name: Add .nojekyll file # Crea el archivo .nojekyll en la carpeta de build.
         run: touch ./dist/.nojekyll
 
       - name: Deploy to GitHub Pages # Paso 5: Despliega los archivos compilados a GitHub Pages.
@@ -35,7 +35,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }} # Token de GitHub para autenticación (proporcionado automáticamente).
           publish_dir: ./dist # Indica que la carpeta a publicar es 'dist' (la salida de tu build de Vite).
-          publish_branch: main # Los archivos se publicarán en la rama 'main' de tu repositorio.
-          force_orphan: true # Asegura un historial de commits limpio para la rama de despliegue.
-          destination_dir: docs # ¡IMPORTANTE! Los archivos de 'dist' se colocarán dentro de una carpeta 'docs' en la rama 'main'.
-          enable_jekyll: false # Ya no es estrictamente necesario si creamos el archivo manualmente, pero no hace daño dejarlo.
+          publish_branch: gh-pages # ¡CAMBIO CRÍTICO! Publica en la rama 'gh-pages'.
+          force_orphan: true # Crea una rama huérfana si es necesario (limpia el historial).
+          # destination_dir: docs # ¡ELIMINADO! Ya no necesitamos esta opción si publicamos en gh-pages.
+          # enable_jekyll: false # Ya no es estrictamente necesario, pero no hace daño.
