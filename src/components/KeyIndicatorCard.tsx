@@ -17,7 +17,6 @@ const KeyIndicatorCard: React.FC<KeyIndicatorCardProps> = ({ indicator }) => {
       <div className="indicator-value">
         {indicator.value} <span className="indicator-unit">{indicator.unit}</span>
       </div>
-      {indicator.change && <p className="indicator-change">{indicator.change}</p>}
     </div>
   );
 };
