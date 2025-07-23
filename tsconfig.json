@@ -1,29 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "composite": true,
     "module": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
-    
-    /* Resolución de módulos */
     "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    
-    /* Checks de tipo */
-    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    
-    /* Rutas */
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "strict": true,
+    "noEmit": false,  // Cambiado a false para proyectos compuestos
+    "types": ["node"],
+    "outDir": "./dist-node"  // Añade un directorio de salida específico
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["vite.config.ts"]
 }
