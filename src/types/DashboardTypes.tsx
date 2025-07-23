@@ -1,48 +1,35 @@
 // src/types/DashboardTypes.tsx
 
-export interface CurrentData {
-  time: string;
-  interval: number;
-  temperature_2m: number;
-  is_day: number;
-  wind_speed_10m: number;
-  precipitation: number;
-  wind_direction?: number; // Asegúrate de que esto siga siendo opcional
-}
 export interface Alert {
-  id: number;
+  id: string; // Añadido para claves únicas en listas
   type: string;
-  location: string;
-  level: 'Baja' | 'Media' | 'Alta';
-  description: string;
+  message: string;
+  level: string;
   time: string;
-  icon: string;
+  location: string;
 }
 
 export interface Condition {
-  id: number;
+  id: string; // Añadido para claves únicas en listas
   type: string;
-  value: string;
   description: string;
-  icon: string;
+  level: string;
+  time: string;
+  location: string;
 }
 
 export interface KeyIndicator {
   id: string;
-  label: string;
+  label: string; // <-- Asegúrate de que existe
   value: string;
   unit: string;
-  change: string;
-  icon: string;
-  gradient: string;
-  bgColor?: string; // Propiedad opcional para fondo de tarjeta si la usas
+  change?: string; // Hacemos opcional si no siempre lo usas
+  icon: string; // Nombre del icono para tu componente Icon.tsx
+  gradient: string; // Para el fondo de gradiente
+  bgColor?: string; // Opcional, si usas un color sólido en vez de gradiente
+  textColor?: string; // Opcional: para controlar el color del texto si el fondo es variable
 }
 
-export interface LocationSelectorProps {
-  currentLocation: string;
-  onLocationChange: (locationName: string) => void;
-  availableLocations: { [key: string]: { latitude: number; longitude: number; timezone: string } };
-}
 export interface CurrentData {
   time: string;
   interval: number;
@@ -50,6 +37,9 @@ export interface CurrentData {
   is_day: number;
   wind_speed_10m: number;
   precipitation: number;
+  relative_humidity_2m: number;
+  pressure_msl: number;
+  wind_direction_10m: number;
 }
 
 export interface HourlyData {
@@ -60,12 +50,11 @@ export interface HourlyData {
   evapotranspiration: number[];
   precipitation_probability: number[];
   apparent_temperature: number[];
-  relative_humidity_2m?: number[]; // Hacemos opcional, si la API no lo trae
-  pressure_msl?: number[];       // Hacemos opcional, si la API no lo trae
-  wind_speed_10m?: number[];     // Hacemos opcional, si la API no lo trae en hourly
-  wind_direction_10m?: number[]; // Necesario para la dirección del viento por hora
+  relative_humidity_2m?: number[];
+  pressure_msl?: number[];
+  wind_speed_10m?: number[];
+  wind_direction_10m?: number[];
 }
-
 export interface DailyData {
   time: string[];
   weather_code: number[];
@@ -74,7 +63,7 @@ export interface DailyData {
   sunrise?: string[];
   sunset?: string[];
   wind_speed_10m_max?: number[];
-  wind_direction_10m_dominant?: number[]; // Si necesitas dirección dominante diaria
+  wind_direction_10m_dominant?: number[];
 }
 
 export interface OpenMeteoResponse {
@@ -86,9 +75,26 @@ export interface OpenMeteoResponse {
   timezone_abbreviation: string;
   elevation: number;
   current_units: any;
-  current: CurrentData;
+  current: CurrentData; // Corregido a 'current'
   hourly_units: any;
   hourly: HourlyData;
   daily_units: any;
   daily: DailyData;
+}
+
+export interface Location {
+  latitude: number;
+  longitude: number;
+  timezone: string;
+}
+
+// ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ NUEVA LÍNEA AÑADIDA AQUÍ ABAJO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+export type LocationName = "Guayaquil, Ecuador" | "Bogotá, Colombia" | "Buenos Aires, Argentina" | "Lima, Perú" | "Santiago, Chile"; 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+export interface LocationSelectorProps {
+  currentLocationName: string; 
+  onLocationChange: (locationName: string) => void;
+  availableLocations: { [key: string]: Location };
 }

@@ -11,14 +11,14 @@ const HourlyForecastTable: React.FC<HourlyForecastTableProps> = ({ hourlyData })
   const numHoursToShow = 8;
   const slicedDataTime = hourlyData.time.slice(0, numHoursToShow);
   const slicedDataTemp = hourlyData.temperature_2m.slice(0, numHoursToShow);
-  // Asegúrate de que estos campos existen en hourlyData y en la respuesta de la API
+  // Asegúrate de que estos se accedan con encadenamiento opcional y se establezcan en arreglos vacíos por defecto
   const slicedDataHumidity = hourlyData.relative_humidity_2m?.slice(0, numHoursToShow) || [];
   const slicedDataPressure = hourlyData.pressure_msl?.slice(0, numHoursToShow) || [];
   const slicedDataWindSpeed = hourlyData.wind_speed_10m?.slice(0, numHoursToShow) || []; // Renombrado para claridad
   const slicedDataWindDirection = hourlyData.wind_direction_10m?.slice(0, numHoursToShow) || []; // Necesario
-  const slicedDataRain = hourlyData.rain?.slice(0, numHoursToShow) || []; // Agregado para seguridad
-  const slicedDataPrecipitationProb = hourlyData.precipitation_probability?.slice(0, numHoursToShow) || []; // Agregado
-  const slicedDataApparentTemp = hourlyData.apparent_temperature?.slice(0, numHoursToShow) || []; // Agregado
+  const slicedDataRain = hourlyData.rain?.slice(0, numHoursToShow) || [];
+  const slicedDataPrecipitationProb = hourlyData.precipitation_probability?.slice(0, numHoursToShow) || [];
+  const slicedDataApparentTemp = hourlyData.apparent_temperature?.slice(0, numHoursToShow) || [];
   const slicedDataWeatherCode = hourlyData.weather_code.slice(0, numHoursToShow);
 
 
@@ -65,48 +65,43 @@ const HourlyForecastTable: React.FC<HourlyForecastTableProps> = ({ hourlyData })
   return (
     <div className="hourly-forecast-table-container">
       <h3>Pronóstico por Hora</h3>
-      <div className="hourly-table-wrapper">
-        <table className="hourly-forecast-table">
-          <thead>
-            <tr>
-              <th>Hora</th>
-              <th>Temp. (°C)</th>
-              <th>Humedad (%)</th>
-              <th>Presión (hPa)</th>
-              <th>Viento (km/h)</th>
-              <th>Lluvia (mm)</th>
-              <th>Prob. Prec. (%)</th>
-              <th>Sensación T. (°C)</th>
-              <th>Condición</th>
+      <table className="hourly-forecast-table">
+        <thead>
+          <tr>
+            <th>Hora</th>
+            <th>Temp. (°C)</th>
+            <th>Humedad (%)</th>
+            <th>Presión (hPa)</th>
+            <th>Viento (km/h)</th>
+            <th>Lluvia (mm)</th>
+            <th>Prob. Prec. (%)</th>
+            <th>Sensación T. (°C)</th>
+            <th>Condición</th>
+          </tr>
+        </thead>
+        <tbody>
+          {slicedDataTime.map((time, index) => (
+            <tr key={index}>
+              <td>{new Date(time).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })}</td>
+              <td>{slicedDataTemp[index]?.toFixed(0) || 'N/A'}</td>
+              <td>{slicedDataHumidity[index]?.toFixed(0) || 'N/A'}</td>
+              <td>{slicedDataPressure[index]?.toFixed(0) || 'N/A'}</td>
+              <td>
+                {slicedDataWindSpeed[index]?.toFixed(0) || 'N/A'}{' '}
+                {slicedDataWindDirection[index] !== undefined ? getWindDirection(slicedDataWindDirection[index]) : ''}
+              </td>
+              <td>{slicedDataRain[index]?.toFixed(1) || 'N/A'}</td>
+              <td>{slicedDataPrecipitationProb[index]?.toFixed(0) || 'N/A'}</td>
+              <td>{slicedDataApparentTemp[index]?.toFixed(0) || 'N/A'}</td>
+              <td>
+                <span className="weather-condition-badge">
+                  {slicedDataWeatherCode[index] !== undefined ? getWeatherDescriptionAndIcon(slicedDataWeatherCode[index]).description : 'N/A'}
+                </span>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {slicedDataTime.map((time, index) => (
-              <tr key={index}>
-                <td>{new Date(time).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })}</td>
-                <td>{slicedDataTemp[index]?.toFixed(0) || 'N/A'}</td>
-                <td>{slicedDataHumidity[index]?.toFixed(0) || 'N/A'}</td>
-                <td>{slicedDataPressure[index]?.toFixed(0) || 'N/A'}</td>
-                <td>
-                  {slicedDataWindSpeed[index]?.toFixed(0) || 'N/A'}{' '}
-                  {/* ACCESO CORRECTO A LA DIRECCIÓN DEL VIENTO HORARIA */}
-                  {slicedDataWindDirection[index] !== undefined
-                    ? getWindDirection(slicedDataWindDirection[index])
-                    : ''}
-                </td>
-                <td>{slicedDataRain[index]?.toFixed(1) || 'N/A'}</td>
-                <td>{slicedDataPrecipitationProb[index]?.toFixed(0) || 'N/A'}</td>
-                <td>{slicedDataApparentTemp[index]?.toFixed(0) || 'N/A'}</td>
-                <td>
-                  <span className="weather-condition-badge">
-                    {slicedDataWeatherCode[index] !== undefined ? getWeatherDescriptionAndIcon(slicedDataWeatherCode[index]).description : 'N/A'}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

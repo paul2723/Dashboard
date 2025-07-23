@@ -2,21 +2,25 @@
 import React from 'react';
 import Card from './Card';
 import Icon from './Icon';
-import type { LocationSelectorProps } from '../types/DashboardTypes'; // <-- ¡CORRECCIÓN AQUÍ!
+// Asegúrate de que DashboardTypes está bien importado
+import type { LocationSelectorProps, Location } from '../types/DashboardTypes'; 
 
+// Renombra 'currentLocation' a 'currentLocationName' para que coincida con la interfaz
 const LocationSelector: React.FC<LocationSelectorProps> = ({
-  currentLocation,
+  currentLocationName, // ¡CAMBIADO AQUÍ!
   onLocationChange,
   availableLocations,
 }) => {
-  const selectedLocationData = availableLocations[currentLocation];
+  // Asegúrate de usar 'currentLocationName' aquí también
+  const selectedLocationData: Location | undefined = availableLocations[currentLocationName];
 
   return (
     <Card title="Selector de Ubicación">
       <div className="location-info">
         <div className="location-item">
           <Icon name="location" />
-          <span>{currentLocation}</span>
+          {/* Y aquí */}
+          <span>{currentLocationName}</span> 
         </div>
         <div className="current-time">
           {selectedLocationData?.timezone && (
@@ -26,7 +30,8 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
       </div>
       <div className="location-selector-dropdown">
         <Icon name="location" />
-        <select value={currentLocation} onChange={(e) => onLocationChange(e.target.value)}>
+        {/* Y aquí */}
+        <select value={currentLocationName} onChange={(e) => onLocationChange(e.target.value)}>
           {Object.keys(availableLocations).map((locationName) => (
             <option key={locationName} value={locationName}>
               {locationName}

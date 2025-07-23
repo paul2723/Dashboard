@@ -2,7 +2,7 @@
 import React from 'react';
 import AlertCard from './AlertCard';
 import Card from './Card';
-import type { Alert } from '../types/DashboardTypes'; // <-- ¡CAMBIO CLAVE!
+import type { Alert } from '../types/DashboardTypes'; // Importación corregida
 
 interface AlertsSectionProps {
   alerts: Alert[];
@@ -18,7 +18,7 @@ const AlertsSection: React.FC<AlertsSectionProps> = ({ alerts }) => {
           ))}
         </ul>
       ) : (
-        <p className="no-alerts-message">No hay alertas meteorológicas activas en este momento.</p>
+        <p className="no-data-message">No hay alertas meteorológicas activas.</p>
       )}
     </Card>
   );

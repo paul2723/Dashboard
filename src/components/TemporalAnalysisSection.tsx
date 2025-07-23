@@ -2,12 +2,11 @@
 import React from 'react';
 import Card from './Card';
 import Icon from './Icon';
-// UNA SOLA LÍNEA DE IMPORTACIÓN para los tipos
-import type { HourlyData, CurrentData } from '../types/DashboardTypes';
+import type { HourlyData, CurrentData } from '../types/DashboardTypes'; // Importación corregida
 
 interface TemporalAnalysisSectionProps {
   hourlyData: HourlyData | undefined;
-  currentWeatherData: CurrentData | undefined;
+  currentWeatherData: CurrentData | undefined; // Usa CurrentData, no CurrentWeather
 }
 
 const TemporalAnalysisSection: React.FC<TemporalAnalysisSectionProps> = ({ hourlyData, currentWeatherData }) => {
@@ -20,14 +19,15 @@ const TemporalAnalysisSection: React.FC<TemporalAnalysisSectionProps> = ({ hourl
     if (weatherCode >= 0 && weatherCode <= 3) return 'Soleado';
     if (weatherCode >= 45 && weatherCode <= 48) return 'Parcialmente nublado';
     if (weatherCode >= 51 && weatherCode <= 55) return 'Llovizna';
-    if (weatherCode >= 56 && weatherCode <= 57) return 'Llovizna helada'; // Añadido
+    if (weatherCode >= 56 && weatherCode <= 57) return 'Llovizna helada';
     if (weatherCode >= 61 && weatherCode <= 65) return 'Lluvia';
     if (weatherCode >= 66 && weatherCode <= 67) return 'Lluvia helada';
     if (weatherCode >= 71 && weatherCode <= 75) return 'Nieve';
-    if (weatherCode === 77) return 'Granizo'; // Añadido
+    if (weatherCode === 77) return 'Granizo';
     if (weatherCode >= 80 && weatherCode <= 82) return 'Chubascos';
-    if (weatherCode >= 85 && weatherCode <= 86) return 'Chubascos de nieve';
-    if (weatherCode >= 95 && weatherCode <= 99) return 'Tormenta';
+    if (weatherCode >= 85 && weatherCode <= 86) return 'Nieve intensa';
+    if (weatherCode === 95) return 'Tormenta';
+    if (weatherCode >= 96 && weatherCode <= 99) return 'Tormenta con granizo';
     return 'Desconocido';
   };
 
@@ -37,75 +37,8 @@ const TemporalAnalysisSection: React.FC<TemporalAnalysisSectionProps> = ({ hourl
     return directions[index % 8];
   };
 
-  const temperaturesForChart = hourlyData?.temperature_2m?.slice(0, 24) || [];
-  const chartTimes = hourlyData?.time?.slice(0, 24).map(getHour) || [];
-
-  const maxTemp = temperaturesForChart.length > 0 ? Math.max(...temperaturesForChart) : 0;
-  const minTemp = temperaturesForChart.length > 0 ? Math.min(...temperaturesForChart) : 0;
-  const tempRange = maxTemp - minTemp;
-
-  const chartPoints = temperaturesForChart.map((temp, index) => {
-    const scaledTemp = tempRange > 0 ? ((temp - minTemp) / tempRange) * 100 : 50;
-    return {
-      x: (index / (temperaturesForChart.length - 1)) * 100,
-      y: 100 - scaledTemp
-    };
-  });
-
   return (
     <div className="temporal-analysis-section">
-      <Card title="Análisis Temporal">
-        <div className="chart-header">
-          <h3><Icon name="up-arrow" /> Temperatura (24h)</h3>
-          <p>Evolución de la temperatura durante el día</p>
-          <button className="chart-button"><Icon name="today" /> Hoy</button>
-        </div>
-        <div className="temperature-chart-container">
-          {temperaturesForChart.length > 0 ? (
-            <div className="temperature-chart">
-              <div className="chart-grid">
-                <div className="y-axis">
-                  {[maxTemp, maxTemp - tempRange * 0.25, maxTemp - tempRange * 0.5, minTemp + tempRange * 0.25, minTemp].map((temp, i) => (
-                    <span key={i} style={{ bottom: `${(i / 4) * 100}%` }}>{Math.round(temp)}</span>
-                  ))}
-                </div>
-                <div className="grid-lines">
-                    {[0, 25, 50, 75, 100].map(val => (
-                        <div key={val} className="grid-line" style={{ bottom: `${val}%` }}></div>
-                    ))}
-                </div>
-                <svg className="chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <polyline
-                        fill="url(#chartGradient)"
-                        stroke="#6a82fb"
-                        strokeWidth="1"
-                        points={chartPoints.map(p => `${p.x},${p.y}`).join(' ')}
-                    />
-                    <defs>
-                      <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style={{stopColor:"#6a82fb", stopOpacity:1}} />
-                        <stop offset="100%" style={{stopColor:"#c7e0ff", stopOpacity:0.3}} />
-                      </linearGradient>
-                    </defs>
-                    {chartPoints.map((p, i) => (
-                        <circle key={i} cx={p.x} cy={p.y} r="1.5" fill="#6a82fb" />
-                    ))}
-                </svg>
-              </div>
-              <div className="x-axis">
-                {chartTimes.map((time, i) => (
-                  <span key={i} className="x-axis-label">
-                    {time.split(':')[0]}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <p className="no-data-message">No hay datos horarios disponibles para el gráfico.</p>
-          )}
-        </div>
-      </Card>
-
       <Card title="Pronóstico Horario">
         <div className="hourly-forecast-table-container">
           {hourlyData && hourlyData.time?.length > 0 ? (
@@ -132,7 +65,7 @@ const TemporalAnalysisSection: React.FC<TemporalAnalysisSectionProps> = ({ hourl
                     <td>{hourlyData.pressure_msl?.[index]?.toFixed(0) || 'N/A'}</td>
                     <td>
                       {hourlyData.wind_speed_10m?.[index]?.toFixed(0) || 'N/A'}{' '}
-                      {/* ACCESO CORRECTO A LA DIRECCIÓN DEL VIENTO HORARIA */}
+                      {/* CORREGIDO: Usa la dirección del viento por hora si está disponible */}
                       {hourlyData.wind_direction_10m?.[index] !== undefined
                         ? getWindDirection(hourlyData.wind_direction_10m[index])
                         : ''}

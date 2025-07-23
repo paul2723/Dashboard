@@ -2,7 +2,7 @@
 import React from 'react';
 import Card from './Card';
 import ConditionCard from './ConditionCard';
-import type { Condition } from '../types/DashboardTypes'; // <-- ¡CORRECCIÓN AQUÍ!
+import type { Condition } from '../types/DashboardTypes'; // Importación corregida
 
 interface ConditionsSectionProps {
   conditions: Condition[];
@@ -10,17 +10,15 @@ interface ConditionsSectionProps {
 
 const ConditionsSection: React.FC<ConditionsSectionProps> = ({ conditions }) => {
   return (
-    <Card title="Condiciones Favorables">
+    <Card title="Condiciones Ambientales">
       {conditions.length > 0 ? (
         <ul className="conditions-list">
           {conditions.map((condition) => (
-            <li key={condition.id}>
-              <ConditionCard condition={condition} />
-            </li>
+            <ConditionCard key={condition.id} condition={condition} />
           ))}
         </ul>
       ) : (
-        <p>No hay condiciones favorables destacadas en este momento.</p>
+        <p className="no-data-message">No hay condiciones ambientales especiales.</p>
       )}
     </Card>
   );

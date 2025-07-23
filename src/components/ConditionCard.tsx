@@ -1,24 +1,42 @@
 // src/components/ConditionCard.tsx
 import React from 'react';
 import Icon from './Icon';
-import type { Condition } from '../types/DashboardTypes'; // <-- ¡CORRECCIÓN AQUÍ!
+import type { Condition } from '../types/DashboardTypes'; // Importación corregida
 
 interface ConditionCardProps {
   condition: Condition;
 }
 
 const ConditionCard: React.FC<ConditionCardProps> = ({ condition }) => {
+  const getConditionIcon = (type: string) => {
+    switch (type) {
+      case 'Temperatura': return 'thermometer';
+      case 'Humedad': return 'humidity';
+      case 'Viento': return 'wind';
+      case 'Visibilidad': return 'eye';
+      case 'UV': return 'sun';
+      case 'Aire': return 'air-quality';
+      case 'Nieve': return 'snow';
+      case 'Lluvia': return 'rain';
+      default: return 'info';
+    }
+  };
+
+  const levelClass = `level-${condition.level.toLowerCase()}`;
+
   return (
-    <div className="condition-card">
-      <div className="condition-icon">
-        <Icon name={condition.icon || 'info'} />
+    <li className={`condition-card ${levelClass}`}>
+      <div className="condition-header">
+        <Icon name={getConditionIcon(condition.type)} />
+        <span className="condition-type">{condition.type}</span>
+        <span className={`condition-level ${levelClass}`}>{condition.level}</span>
+        <span className="condition-time">{condition.time}</span>
       </div>
-      <div className="condition-content">
-        <h4 className="condition-type">{condition.type}</h4>
-        <p className="condition-description">{condition.description}</p>
+      <p className="condition-description">{condition.description}</p>
+      <div className="condition-location">
+        <Icon name="location-pin" /> {condition.location}
       </div>
-      <span className="condition-value">{condition.value}</span>
-    </div>
+    </li>
   );
 };
 

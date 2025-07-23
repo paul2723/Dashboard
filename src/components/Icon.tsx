@@ -26,6 +26,12 @@ const Icon: FC<IconProps> = ({ name, size = 20, color = '#333', className = '' }
       case 'wind': return '💨'; // NUEVO para indicadores
       case 'rain': return '☔'; // NUEVO para alertas de lluvia
       case 'calendar': return '🗓️'; // Para el botón "Hoy" en el gráfico (opcional)
+      case 'location-pin': return '📍'; // Agregado para ConditionCard y AlertCard
+      case 'thermometer': return '🌡️';
+      case 'eye': return '👁️';
+      case 'sun': return '☀️';
+      case 'air-quality': return '💨';
+      case 'snow': return '❄️';
       default: return '';
     }
   };
