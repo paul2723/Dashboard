@@ -2,54 +2,44 @@
 import React from 'react';
 import Card from './Card';
 import Icon from './Icon';
-import type { FC } from 'react';
-import '../App.css'; // Asegúrate de que los estilos estén importados
+import type { LocationSelectorProps } from '../types/DashboardTypes'; // <-- ¡CORRECCIÓN AQUÍ!
 
-// Interfaz para las props del componente LocationSelector (actualizada)
-interface LocationSelectorProps {
-  currentLocation: string; // El nombre de la ubicación actual
-  onLocationChange: (locationName: string) => void; // Función para notificar el cambio de ubicación
-  // Objeto que contiene todas las ubicaciones disponibles con sus detalles
-  availableLocations: { [key: string]: { latitude: number; longitude: number; timezone: string } };
-}
-
-const LocationSelector: FC<LocationSelectorProps> = ({ currentLocation, onLocationChange, availableLocations }) => {
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onLocationChange(event.target.value);
-  };
-
-  // Obtener detalles de la ubicación actual para mostrar coordenadas y zona horaria
-  const currentDetails = availableLocations[currentLocation];
-  const displayLat = currentDetails?.latitude?.toFixed(4) || 'N/A';
-  const displayLon = currentDetails?.longitude?.toFixed(4) || 'N/A';
-  const displayTimezone = currentDetails?.timezone || 'N/A';
+const LocationSelector: React.FC<LocationSelectorProps> = ({
+  currentLocation,
+  onLocationChange,
+  availableLocations,
+}) => {
+  const selectedLocationData = availableLocations[currentLocation];
 
   return (
-    <Card title="Selector de Ubicación" className="location-selector-card">
-      <div className="location-info-display">
-        <Icon name="location" size={20} color="#3498db" />
-        <span className="current-location-text">{currentLocation}</span>
+    <Card title="Selector de Ubicación">
+      <div className="location-info">
+        <div className="location-item">
+          <Icon name="location" />
+          <span>{currentLocation}</span>
+        </div>
+        <div className="current-time">
+          {selectedLocationData?.timezone && (
+              <span>{new Date().toLocaleTimeString('es-ES', { timeZone: selectedLocationData.timezone, hour: '2-digit', minute: '2-digit' })}</span>
+          )}
+        </div>
       </div>
-
-      <div className="location-dropdown-container">
-        <select
-          className="location-select"
-          value={currentLocation}
-          onChange={handleSelectChange}
-        >
-          {/* Mapear las claves de availableLocations a opciones del select */}
-          {Object.keys(availableLocations).map(locationName => (
+      <div className="location-selector-dropdown">
+        <Icon name="location" />
+        <select value={currentLocation} onChange={(e) => onLocationChange(e.target.value)}>
+          {Object.keys(availableLocations).map((locationName) => (
             <option key={locationName} value={locationName}>
               {locationName}
             </option>
           ))}
         </select>
       </div>
-
-      <div className="coordinates-info">
-        <p><strong>Coordenadas:</strong> {displayLat}, {displayLon}</p>
-        <p><strong>Zona Horaria:</strong> {displayTimezone}</p>
-      </div>
+      {selectedLocationData && (
+        <div className="coordinates-info">
+          <p>Coordenadas: {selectedLocationData.latitude}, {selectedLocationData.longitude}</p>
+          <p>Zona Horaria: {selectedLocationData.timezone}</p>
+        </div>
+      )}
     </Card>
   );
 };

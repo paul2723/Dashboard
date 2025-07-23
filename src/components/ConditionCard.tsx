@@ -1,34 +1,24 @@
 // src/components/ConditionCard.tsx
 import React from 'react';
 import Icon from './Icon';
-import '../App.css';
-import type { Condition } from '../App';
+import type { Condition } from '../types/DashboardTypes'; // <-- ¡CORRECCIÓN AQUÍ!
 
-// Interfaz para las props de ConditionCard
 interface ConditionCardProps {
   condition: Condition;
 }
 
 const ConditionCard: React.FC<ConditionCardProps> = ({ condition }) => {
-  // Puedes expandir esto para tener iconos dinámicos según el tipo de condición
-  const getConditionIcon = (type: string) => { // Tipado para 'type'
-    switch (type) {
-      case 'Temperatura Agradable': return '🌡️'; // Emoji temporal
-      case 'Viento Ligero': return '🌬️'; // Emoji temporal
-      // Aquí podrías añadir más iconos o usar Icon para iconos SVG
-      default: return '✅'; // Emoji por defecto
-    }
-  };
-
   return (
-    <li className="condition-card">
-      <span className="condition-icon">{getConditionIcon(condition.type)}</span>
-      <div className="condition-details">
-        <h4>{condition.type}</h4>
-        <p>{condition.description}</p>
+    <div className="condition-card">
+      <div className="condition-icon">
+        <Icon name={condition.icon || 'info'} />
+      </div>
+      <div className="condition-content">
+        <h4 className="condition-type">{condition.type}</h4>
+        <p className="condition-description">{condition.description}</p>
       </div>
       <span className="condition-value">{condition.value}</span>
-    </li>
+    </div>
   );
 };
 

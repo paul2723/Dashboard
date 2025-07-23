@@ -2,10 +2,8 @@
 import React from 'react';
 import AlertCard from './AlertCard';
 import Card from './Card';
-import '../App.css';
-import type { Alert } from '../App';
+import type { Alert } from '../types/DashboardTypes'; // <-- ¡CAMBIO CLAVE!
 
-// Interfaz para las props de AlertsSection
 interface AlertsSectionProps {
   alerts: Alert[];
 }
@@ -13,14 +11,14 @@ interface AlertsSectionProps {
 const AlertsSection: React.FC<AlertsSectionProps> = ({ alerts }) => {
   return (
     <Card title="Alertas Meteorológicas">
-      {alerts && alerts.length > 0 ? (
+      {alerts.length > 0 ? (
         <ul className="alerts-list">
-          {alerts.map(alert => (
+          {alerts.map((alert) => (
             <AlertCard key={alert.id} alert={alert} />
           ))}
         </ul>
       ) : (
-        <p>No hay alertas meteorológicas activas en este momento.</p>
+        <p className="no-alerts-message">No hay alertas meteorológicas activas en este momento.</p>
       )}
     </Card>
   );

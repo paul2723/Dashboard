@@ -1,60 +1,48 @@
-// src/functions/DataFetcher.tsx
-import React, { useState, useEffect } from 'react';
-import type { OpenMeteoResponse } from '../types/DashboardTypes'; // Importa desde el archivo de tipos
+// src/functions/DataFetcher.ts
+import { useState, useEffect } from 'react';
+import type { OpenMeteoResponse } from '../types/DashboardTypes'; // Importa el tipo
 
-// Interfaz para las props que recibe el custom hook (latitud, longitud, zona horaria)
-interface DataFetcherHookProps {
+interface FetchParams {
   latitude: number;
   longitude: number;
   timezone: string;
 }
 
-/**
- * Custom Hook para obtener datos climáticos de Open-Meteo.
- * Encapsula la lógica de fetching, estados de carga y error.
- * @param latitude Latitud de la ubicación.
- * @param longitude Longitud de la ubicación.
- * @param timezone Zona horaria de la ubicación.
- * @returns Un objeto con los datos obtenidos (data), el estado de carga (loading) y el mensaje de error (error).
- */
-export const useDataFetcher = ({ latitude, longitude, timezone }: DataFetcherHookProps) => {
+export const useDataFetcher = ({ latitude, longitude, timezone }: FetchParams) => {
   const [data, setData] = useState<OpenMeteoResponse | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); // Inicia en true para cargar al montar
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Definir la URL de la API de Open-Meteo
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,pressure_msl,wind_speed_10m,weather_code,rain,evapotranspiration,precipitation_probability,apparent_temperature&daily=sunrise,sunset,temperature_2m_max,temperature_2m_min,weather_code&timezone=${timezone}&temperature_unit=celsius&wind_speed_unit=kmh`;
-
-    // Definir la función asíncrona que realizará la petición
     const fetchData = async () => {
-      setLoading(true); // Siempre reiniciar la carga cuando se inicia un fetch
-      setError(null);   // Limpiar cualquier error previo
+      setLoading(true);
+      setError(null);
       try {
-        const response = await fetch(url);
-
-        // Validar si la respuesta no es exitosa, lanzar un error
+        // Asegúrate de que los parámetros de la URL sean correctos para tu API de Open-Meteo
+        // current=true trae los datos actuales
+        // hourly incluye temperatura, humedad, presión, viento, código de clima, lluvia, etc.
+        // daily incluye temperaturas máximas/mínimas, amanecer/anochecer, código de clima, velocidad máxima del viento
+        const URL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&timezone=${timezone}&current=true&hourly=temperature_2m,relative_humidity_2m,pressure_msl,wind_speed_10m,weather_code,rain,precipitation_probability,apparent_temperature,evapotranspiration&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,weather_code,wind_speed_10m_max`;
+        
+        const response = await fetch(URL);
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`Error HTTP: ${response.status}`);
         }
-
-        // Si la respuesta es exitosa, convertir a JSON y almacenar en el estado 'data'
-        const result: OpenMeteoResponse = await response.json();
-        setData(result);
+        const jsonData: OpenMeteoResponse = await response.json();
+        setData(jsonData);
       } catch (err) {
-        // En caso de error, almacenar el mensaje de error en el estado 'error'
-        setError("No se pudieron cargar los datos del clima. Inténtalo de nuevo más tarde.");
-        console.error("Error fetching data:", err);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Un error desconocido ocurrió.");
+        }
       } finally {
-        // Cambiar el estado 'loading' a false una vez que la petición se haya completado
         setLoading(false);
       }
     };
 
-    // Llamar a la función fetchData dentro del hook useEffect
     fetchData();
-  }, [latitude, longitude, timezone]); // El efecto se re-ejecuta si estos valores cambian
+  }, [latitude, longitude, timezone]); // Dependencias del useEffect
 
-  // El custom hook retorna un objeto con los objetos data, loading y error como propiedades.
   return { data, loading, error };
 };

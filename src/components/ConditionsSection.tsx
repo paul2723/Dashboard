@@ -1,11 +1,9 @@
 // src/components/ConditionsSection.tsx
 import React from 'react';
-import ConditionCard from './ConditionCard';
 import Card from './Card';
-import '../App.css';
-import type { Condition } from '../App'; // Importar la interfaz Condition
+import ConditionCard from './ConditionCard';
+import type { Condition } from '../types/DashboardTypes'; // <-- ¡CORRECCIÓN AQUÍ!
 
-// Interfaz para las props de ConditionsSection
 interface ConditionsSectionProps {
   conditions: Condition[];
 }
@@ -13,10 +11,12 @@ interface ConditionsSectionProps {
 const ConditionsSection: React.FC<ConditionsSectionProps> = ({ conditions }) => {
   return (
     <Card title="Condiciones Favorables">
-      {conditions && conditions.length > 0 ? (
+      {conditions.length > 0 ? (
         <ul className="conditions-list">
-          {conditions.map(condition => (
-            <ConditionCard key={condition.id} condition={condition} />
+          {conditions.map((condition) => (
+            <li key={condition.id}>
+              <ConditionCard condition={condition} />
+            </li>
           ))}
         </ul>
       ) : (
