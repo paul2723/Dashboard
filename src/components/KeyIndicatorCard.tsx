@@ -1,6 +1,5 @@
-// src/components/KeyIndicatorCard.tsx
- import React from 'react';
- import type { KeyIndicator } from '../types/DashboardTypes';
+import React from 'react';
+import type { KeyIndicator } from '../types/DashboardTypes';
 
  interface KeyIndicatorCardProps {
    indicator: KeyIndicator;

@@ -1,7 +1,5 @@
-// src/components/ConditionsSection.tsx
 import React from 'react';
 import Card from './Card';
-import Icon from './Icon'; // Asegúrate de importar Icon si lo usas para los badges
 import type { Condition } from '../types/DashboardTypes';
 
 interface ConditionsSectionProps {

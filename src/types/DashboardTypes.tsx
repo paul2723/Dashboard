@@ -1,7 +1,5 @@
-// src/types/DashboardTypes.tsx
-
 export interface Alert {
-  id: string; // Añadido para claves únicas en listas
+  id: string; 
   type: string;
   message: string;
   level: string;
@@ -10,11 +8,11 @@ export interface Alert {
 }
 
 export interface Condition {
-  id: string; // Añadido para claves únicas en listas
+  id: string; 
   type: string;
   description: string;
   level: string;
-  time?: string; // Hacemos opcional si ya no lo usas en el generador
+  time?: string; 
   location: string;
 }
 
@@ -89,8 +87,6 @@ export interface Location {
   longitude: number;
   timezone: string;
 }
-
-// ¡ACTUALIZADO: Tipo LocationName con las provincias de Ecuador!
 export type LocationName = "Pichincha" | "Guayas" | "Azuay" | "Manabí" | "El Oro" | "Loja";
 
 export interface LocationSelectorProps {

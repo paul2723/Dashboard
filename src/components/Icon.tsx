@@ -1,5 +1,3 @@
-// src/components/Icon.tsx
-import React from 'react';
 import type { FC } from 'react';
 
 interface IconProps {

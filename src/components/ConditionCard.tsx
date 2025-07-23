@@ -1,7 +1,6 @@
-// src/components/ConditionCard.tsx
 import React from 'react';
 import Icon from './Icon';
-import type { Condition } from '../types/DashboardTypes'; // Importación corregida
+import type { Condition } from '../types/DashboardTypes';
 
 interface ConditionCardProps {
   condition: Condition;

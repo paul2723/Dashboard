@@ -1,8 +1,7 @@
-// src/components/LocationSelector.tsx
 import React from 'react';
 import Card from './Card';
 import Icon from './Icon';
-import Chart from './Chart'; // Importar el componente Chart (anteriormente TemperatureHumidityChart)
+import Chart from './Chart'; 
 import type { LocationSelectorProps, Location, LocationName, HourlyData } from '../types/DashboardTypes'; // Asegúrate de importar HourlyData
 
 // Extiende las props para incluir hourlyData

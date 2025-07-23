@@ -1,10 +1,8 @@
-// src/components/Card.tsx
 import React from 'react';
-import type { ReactNode } from 'react'; // Si necesitas el tipo ReactNode
 
 interface CardProps {
   title?: string;
-  children: React.ReactNode; // Forma correcta de tipar children
+  children: React.ReactNode; 
   className?: string;
 }
 

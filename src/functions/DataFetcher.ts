@@ -1,12 +1,11 @@
-// src/functions/DataFetcher.ts
+
 import { useState, useEffect } from 'react';
 import type { OpenMeteoResponse } from '../types/DashboardTypes';
-
 interface FetchParams {
   latitude: number;
   longitude: number;
   timezone: string;
-  refreshTrigger: number; // Nuevo parámetro
+  refreshTrigger: number; 
 }
 export interface CurrentData {
   time: string;
@@ -22,7 +21,7 @@ export interface CurrentData {
 
 export interface KeyIndicator {
   id: string;
-  label: string; // ¡CAMBIO AQUÍ: de vuelta a 'label'!
+  label: string;
   value: string;
   unit: string;
   change: string;
@@ -106,8 +105,8 @@ export const useDataFetcher = ({ latitude, longitude, timezone, refreshTrigger }
           throw new Error(`Error HTTP: ${response.status} - ${response.statusText}. Detalles: ${errorText}`);
         }
         const jsonData: OpenMeteoResponse = await response.json();
-        console.log("[DataFetcher] Datos recibidos:", jsonData); // <-- ¡AÑADE ESTO!
-        console.log("[DataFetcher] Hora de la observación actual:", jsonData?.current?.time); // <-- ¡AÑADE ESTO!
+        console.log("[DataFetcher] Datos recibidos:", jsonData); 
+        console.log("[DataFetcher] Hora de la observación actual:", jsonData?.current?.time);
         setData(jsonData);
       } catch (err) {
         if (err instanceof Error) {
@@ -115,10 +114,10 @@ export const useDataFetcher = ({ latitude, longitude, timezone, refreshTrigger }
         } else {
           setError("Un error desconocido ocurrió.");
         }
-        console.error("[DataFetcher] Error durante el fetch:", err); // <-- ¡AÑADE ESTO!
+        console.error("[DataFetcher] Error durante el fetch:", err); 
       } finally {
         setLoading(false);
-        console.log("[DataFetcher] Fetch finalizado. Loading:", false); // <-- ¡AÑADE ESTO!
+        console.log("[DataFetcher] Fetch finalizado. Loading:", false); 
       }
     };
 

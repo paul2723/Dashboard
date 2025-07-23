@@ -1,6 +1,5 @@
-// src/components/KeyIndicatorsSection.tsx
 import React from 'react';
-import Card from './Card'; // Importa el componente Card
+import Card from './Card'; 
 import KeyIndicatorCard from './KeyIndicatorCard';
 import type { KeyIndicator } from '../types/DashboardTypes';
 

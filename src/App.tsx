@@ -1,22 +1,16 @@
-// src/App.tsx
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
 import Card from './components/Card';
-// import InfoBar from './components/InfoBar'; // Asegúrate de que esta línea esté comentada o eliminada
-
 import LocationSelector from './components/LocationSelector';
 import ConditionsSection from './components/ConditionsSection';
 import KeyIndicatorsSection from './components/KeyIndicatorsSection';
-import TemporalAnalysisSection from './components/TemporalAnalysisSection';
+import TemporalAnalysisSection from './components/TemporalAnalysisSection'; // Importación por defecto
 
 import { useDataFetcher } from './functions/DataFetcher';
 
 import type {
-  OpenMeteoResponse,
   Condition,
   KeyIndicator,
-  CurrentData,
-  HourlyData,
   Location,
   LocationName
 } from './types/DashboardTypes';
@@ -28,6 +22,7 @@ import './index.css';
 import './App.css';
 
 function App() {
+  // Ubicaciones configuradas para provincias de Ecuador
   const predefinedLocations: { [key in LocationName]: Location } = {
     "Pichincha": { latitude: -0.2252, longitude: -78.5249, timezone: "America/Guayaquil" }, // Quito
     "Guayas": { latitude: -2.1962, longitude: -79.8862, timezone: "America/Guayaquil" }, // Guayaquil
@@ -37,7 +32,7 @@ function App() {
     "Loja": { latitude: -4.0000, longitude: -79.2000, timezone: "America/Guayaquil" }, // Loja
   };
 
-  const [currentLocationName, setCurrentLocationName] = useState<LocationName>("Guayas"); // Establecer una provincia inicial
+  const [currentLocationName, setCurrentLocationName] = useState<LocationName>("Guayas");
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const { latitude, longitude, timezone } = predefinedLocations[currentLocationName];
@@ -49,17 +44,16 @@ function App() {
 
   useEffect(() => {
     if (weatherData && weatherData.current && weatherData.daily && weatherData.hourly) {
-      // ¡CORREGIDO: Pasar currentLocationName como tercer argumento!
-      setConditions(generateConditions(weatherData.current, weatherData.hourly, currentLocationName));
-      // ¡CORREGIDO: Asegurarse de que generateKeyIndicators reciba solo 2 argumentos si esa es su firma!
+      // Llamada a generateConditions con los argumentos correctos
+      setConditions(generateConditions(weatherData.current, currentLocationName));
       setKeyIndicators(generateKeyIndicators(weatherData.current, weatherData.daily));
     } else {
       setConditions([]);
       setKeyIndicators([]);
     }
-  }, [weatherData, currentLocationName]); // Añadir currentLocationName a las dependencias
+  }, [weatherData, currentLocationName]);
 
-  // Este useEffect es para depurar el valor de weatherData.current.time
+  // Efecto para depurar el valor de weatherData.current.time
   useEffect(() => {
     if (weatherData?.current?.time) {
       console.log("[App.tsx] Valor de weatherData.current.time (original):", weatherData.current.time);
@@ -94,9 +88,7 @@ function App() {
       })
     : 'N/A';
 
-  // Formatear sunrise y sunset para mostrar solo la hora
   const formatTime = (isoString: string | undefined) => {
-    // Asegurarse de que la cadena no sea vacía y sea una fecha válida
     if (isoString && isoString !== '' && !isNaN(new Date(isoString).getTime())) {
       return new Date(isoString).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
     }
@@ -106,7 +98,7 @@ function App() {
   const sunrise = formatTime(weatherData?.daily?.sunrise?.[0]);
   const sunset = formatTime(weatherData?.daily?.sunset?.[0]);
 
-  // Nuevo useEffect para depurar los valores formateados de sunrise y sunset
+  // Efecto para depurar los valores formateados de sunrise y sunset
   useEffect(() => {
     console.log("[App.tsx] Sunrise formateado:", sunrise);
     console.log("[App.tsx] Sunset formateado:", sunset);
@@ -122,42 +114,45 @@ function App() {
   }
 
   return (
-    <div className="dashboard-container">
-      <Header
-        lastUpdate={lastUpdate}
-        sunrise={sunrise}
-        sunset={sunset}
-        isConnecting={loading}
-        hasError={!!error}
-        onRefresh={handleRefresh}
-      />
-      <div className="dashboard-content">
-        <Card className="analysis-subtitle-card">
-          <h2 className="analysis-subtitle">Análisis meteorológico en tiempo real</h2>
-        </Card>
+    // Usamos React.Fragment explícitamente para asegurar que 'React' se lea y resolver TS6133
+    <React.Fragment>
+      <div className="dashboard-container">
+        <Header
+          lastUpdate={lastUpdate}
+          sunrise={sunrise}
+          sunset={sunset}
+          isConnecting={loading}
+          hasError={!!error}
+          onRefresh={handleRefresh}
+        />
+        <div className="dashboard-content">
+          <Card className="analysis-subtitle-card">
+            <h2 className="analysis-subtitle">Análisis meteorológico en tiempo real</h2>
+          </Card>
 
-        <div className="dashboard-grid">
-          <div className="main-content">
-            <ConditionsSection conditions={conditions} />
+          <div className="dashboard-grid">
+            <div className="main-content">
+              <ConditionsSection conditions={conditions} />
 
-            <KeyIndicatorsSection indicators={keyIndicators} />
+              <KeyIndicatorsSection indicators={keyIndicators} />
 
-            <TemporalAnalysisSection
+              <TemporalAnalysisSection
+                  hourlyData={weatherData?.hourly}
+                  currentWeatherData={weatherData?.current}
+              />
+            </div>
+            <aside className="sidebar">
+              <LocationSelector
+                currentLocationName={currentLocationName}
+                onLocationChange={handleLocationChange}
+                availableLocations={predefinedLocations}
                 hourlyData={weatherData?.hourly}
-                currentWeatherData={weatherData?.current}
-            />
+              />
+            </aside>
           </div>
-          <aside className="sidebar">
-            <LocationSelector
-              currentLocationName={currentLocationName}
-              onLocationChange={handleLocationChange}
-              availableLocations={predefinedLocations}
-              hourlyData={weatherData?.hourly}
-            />
-          </aside>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 

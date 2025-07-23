@@ -1,11 +1,9 @@
-// src/components/Chart.tsx
 import React, { useMemo } from 'react';
-// ¡CORREGIDO: La importación debe ser desde 'recharts'!
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Card from './Card';
 import type { HourlyData } from '../types/DashboardTypes';
 
-interface ChartProps { // Cambiado a ChartProps para ser más genérico si se usa para diferentes gráficos
+interface ChartProps {
   hourlyData: HourlyData | undefined;
 }
 
@@ -20,7 +18,6 @@ const Chart: React.FC<ChartProps> = ({ hourlyData }) => {
       return [];
     }
 
-    // Limita los datos a las próximas 24 horas para el gráfico
     const dataPoints = hourlyData.time.slice(0, 24).map((time, index) => {
       const temperature = hourlyData.temperature_2m?.[index];
       const humidity = hourlyData.relative_humidity_2m?.[index];
@@ -30,7 +27,7 @@ const Chart: React.FC<ChartProps> = ({ hourlyData }) => {
         Temperatura: temperature !== undefined ? parseFloat(temperature.toFixed(1)) : null,
         Humedad: humidity !== undefined ? parseFloat(humidity.toFixed(0)) : null,
       };
-    }).filter(item => item.Temperatura !== null && item.Humedad !== null); // Filtra puntos sin datos
+    }).filter(item => item.Temperatura !== null && item.Humedad !== null);
 
     return dataPoints;
   }, [hourlyData]);
@@ -41,14 +38,14 @@ const Chart: React.FC<ChartProps> = ({ hourlyData }) => {
         <ResponsiveContainer width="100%" height={250}>
           <LineChart
             data={chartData}
-            margin={{ top: 5, right: 10, left: -20, bottom: 5 }} // Ajuste de márgenes para la barra lateral
+            margin={{ top: 5, right: 10, left: -20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="hour" stroke="#555" />
             <YAxis yAxisId="temp" stroke="#ff7043" label={{ value: 'Temp (°C)', angle: -90, position: 'insideLeft', fill: '#ff7043' }} />
             <YAxis yAxisId="hum" orientation="right" stroke="#29b6f6" label={{ value: 'Humedad (%)', angle: 90, position: 'insideRight', fill: '#29b6f6' }} />
             <Tooltip
-              formatter={(value, name, props) => [`${value}${name === 'Temperatura' ? '°C' : '%'}`, name]}
+              formatter={(value, name, _props) => [`${value}${name === 'Temperatura' ? '°C' : '%'}`, name]} // CORREGIDO: props a _props
               labelFormatter={(label) => `Hora: ${label}`}
               contentStyle={{ backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '5px' }}
               labelStyle={{ color: '#333' }}

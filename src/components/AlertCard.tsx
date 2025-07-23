@@ -1,7 +1,6 @@
-// src/components/AlertCard.tsx
 import React from 'react';
 import Icon from './Icon';
-import type { Alert } from '../types/DashboardTypes'; // Importación corregida
+import type { Alert } from '../types/DashboardTypes'; 
 
 interface AlertCardProps {
   alert: Alert;

@@ -1,14 +1,15 @@
-// src/functions/ConditionGenerator.ts
-import type { Condition, CurrentData, HourlyData } from '../types/DashboardTypes';
+import type { Condition, CurrentData } from '../types/DashboardTypes';
 
+// La función ahora espera 3 argumentos: current, hourly, y currentLocationName
 export const generateConditions = (
   current: CurrentData,
-  hourly: HourlyData
+  // ELIMINADO: hourly ya no se usa directamente en esta función
+  // hourly: HourlyData, // Comentado o eliminado para resolver TS6133
+  currentLocationName: string // Tercer argumento esperado
 ): Condition[] => {
   const conditions: Condition[] = [];
-  const now = new Date();
-  const currentTime = now.toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit' });
-  const currentLocation = "Guayaquil"; // Puedes hacer esto dinámico
+
+  const currentLocation = currentLocationName; // Usamos el nombre de la ubicación pasado como argumento
 
   // Ejemplo de reglas de condiciones
   if (current.temperature_2m >= 20 && current.temperature_2m <= 28 && current.precipitation === 0) {
@@ -17,7 +18,6 @@ export const generateConditions = (
       type: 'Temperatura Agradable',
       description: `Disfruta de una temperatura ideal de ${current.temperature_2m}°C.`,
       level: 'Baja', // 'Baja' para condiciones favorables
-      time: currentTime,
       location: currentLocation,
     });
   }
@@ -28,7 +28,6 @@ export const generateConditions = (
       type: 'Humedad Baja',
       description: `Niveles de humedad confortables (${current.relative_humidity_2m}%).`,
       level: 'Baja',
-      time: currentTime,
       location: currentLocation,
     });
   }
@@ -39,13 +38,10 @@ export const generateConditions = (
       type: 'Vientos Ligeros',
       description: `Vientos suaves de ${current.wind_speed_10m} km/h.`,
       level: 'Baja',
-      time: currentTime,
       location: currentLocation,
     });
   }
 
-  // Condición de buena visibilidad (ejemplo, no basada en un dato real de visibilidad de Open-Meteo directamente)
-  // Podrías inferirlo de la ausencia de niebla o precipitaciones intensas.
   const isClearOrPartlyCloudy = current.is_day && (current.precipitation === 0);
   if (isClearOrPartlyCloudy) {
     conditions.push({
@@ -53,13 +49,40 @@ export const generateConditions = (
       type: 'Buena Visibilidad',
       description: 'Cielo despejado o parcialmente nublado, buena visibilidad.',
       level: 'Baja',
-      time: currentTime,
       location: currentLocation,
     });
   }
 
-  // Puedes añadir más lógicas para condiciones específicas
-  // Por ejemplo, "Ideal para actividades al aire libre" si varias condiciones son óptimas.
+  // Alertas (ejemplo, si las condiciones son más severas)
+  if (current.temperature_2m > 30) {
+    conditions.push({
+      id: `alert-temp-high-${Date.now()}-1`,
+      type: 'Alerta de Temperatura Extrema',
+      description: `¡Alerta! Temperatura actual alta: ${current.temperature_2m}°C.`,
+      level: 'Alta',
+      location: currentLocation,
+    });
+  }
+
+  if (current.temperature_2m < 10) {
+    conditions.push({
+      id: `alert-temp-low-${Date.now()}-2`,
+      type: 'Alerta de Temperatura Fría',
+      description: `¡Alerta! Temperatura actual baja: ${current.temperature_2m}°C.`,
+      level: 'Media',
+      location: currentLocation,
+    });
+  }
+
+  if (current.precipitation > 0.5) {
+    conditions.push({
+      id: `alert-precip-${Date.now()}-3`,
+      type: 'Alerta de Lluvia Significativa',
+      description: `Se está registrando una precipitación de ${current.precipitation} mm.`,
+      level: 'Media',
+      location: currentLocation,
+    });
+  }
 
   return conditions;
 };

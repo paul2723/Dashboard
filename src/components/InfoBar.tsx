@@ -1,14 +1,12 @@
-// src/components/InfoBar.tsx
 import React from 'react';
 import Icon from './Icon';
 import '../App.css';
 
-// Interfaz para las props de InfoBar
 interface InfoBarProps {
   lastUpdate: string;
   isLive: boolean;
-  sunrise: string | undefined; // Puede ser undefined si no hay datos
-  sunset: string | undefined; // Puede ser undefined si no hay datos
+  sunrise: string | undefined; 
+  sunset: string | undefined; 
 }
 
 const InfoBar: React.FC<InfoBarProps> = ({ lastUpdate, isLive, sunrise, sunset }) => {

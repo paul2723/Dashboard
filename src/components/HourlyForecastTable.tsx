@@ -1,7 +1,6 @@
-// src/components/HourlyForecastTable.tsx (Si lo mantienes como archivo separado)
 import React from 'react';
-import type { HourlyData } from '../types/DashboardTypes'; // <-- ¡CORRECCIÓN AQUÍ!
-import Icon from './Icon'; // Asegúrate de que Icon.tsx exista
+import type { HourlyData } from '../types/DashboardTypes'; 
+
 
 interface HourlyForecastTableProps {
   hourlyData: HourlyData;

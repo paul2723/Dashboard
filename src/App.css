@@ -6,9 +6,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #22bdce;
-  /* ¡CAMBIADO A CELESTE OSCURO! */
   color: #333;
-  /* Mantener el color de texto general, aunque podrías querer cambiarlo a blanco */
+ 
 }
 
 code {
@@ -31,25 +30,25 @@ code {
 .dashboard-content {
   flex-grow: 1;
   padding: 20px;
-  max-width: 1200px; /* Ancho máximo del contenido principal */
-  margin: 20px auto; /* Centrar el contenido y darle espacio vertical */
-  display: flex; /* ¡AÑADIDO: Convierte el contenedor en un flex container! */
-  flex-direction: column; /* ¡AÑADIDO: Mantiene los elementos apilados verticalmente! */
-  align-items: center; /* ¡AÑADIDO: Centra los elementos hijos horizontalmente! */
+  max-width: 1200px; 
+  margin: 20px auto; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
 }
 
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr;
-  /* Una columna por defecto */
+
   gap: 20px;
 }
 
 @media (min-width: 768px) {
   .dashboard-grid {
     grid-template-columns: 2fr 1fr;
-    /* Dos columnas: contenido principal y sidebar */
+
   }
 }
 
@@ -59,21 +58,14 @@ code {
   gap: 20px;
 }
 
-.sidebar {
-  /* Estilos para la barra lateral si es necesario */
-}
 
-/* --- Componente Card (Estilos generales para cualquier tarjeta) --- */
 .card {
   background-color: #e0f7fa;
-  /* ¡CAMBIADO A CELESTE CLARO! */
   border-radius: 8px;
-  /* Bordes redondeados */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  /* Sombra */
   padding: 20px;
   margin-bottom: 20px;
-  /* Espacio entre tarjetas */
+
 }
 
 .card-title {
@@ -86,7 +78,6 @@ code {
 
 /* --- Header Styles --- */
 .dashboard-header {
-  /* Cambiado de .header a .dashboard-header para coincidir con el JSX */
   background-color: #ffffff;
   padding: 15px 25px;
   display: flex;
@@ -100,7 +91,7 @@ code {
 }
 
 .header-left {
-  /* Asegura que el título y subtítulo estén a la izquierda */
+
   display: flex;
   flex-direction: column;
 }
@@ -124,34 +115,26 @@ code {
   flex-wrap: wrap;
   align-items: center;
   gap: 25px;
-  /* Aumentado el espacio entre los grupos de información y botones */
+  
   justify-content: flex-end;
 }
 
-/* Contenedores para la información (estado, última actualización, sol) */
 .info-group {
   display: flex;
   flex-direction: column;
-  /* Apila los elementos dentro del grupo */
   align-items: flex-end;
-  /* Alinea el texto a la derecha dentro del grupo */
   white-space: nowrap;
-  /* Evita que el texto se rompa */
   gap: 5px;
-  /* Espacio entre los elementos individuales dentro de cada grupo */
 }
 
 .status-indicator,
 .last-update-info,
 .sun-time-item {
-  /* Aplicar estilos a los elementos individuales dentro de los grupos */
   display: flex;
   align-items: center;
   gap: 5px;
-  /* Espacio entre el icono y el texto */
   font-size: 0.85em;
   color: #555;
-  /* Eliminado margin-bottom aquí, ya que el gap en .info-group lo maneja */
 }
 
 .status-dot {
@@ -160,33 +143,24 @@ code {
   height: 8px;
   border-radius: 50%;
   background-color: #28a745;
-  /* Color verde para "En línea" */
   margin-right: 5px;
 }
-
-/* Estilos para los elementos individuales de salida/puesta del sol */
 .sun-times-group {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
-
-/* Contenedor para los botones */
 .buttons-group {
   display: flex;
   gap: 8px;
 }
-
-/* Ajustes para los botones */
 .refresh-button,
 .settings-button {
   background-color: #f0f2f5;
-  /* Un fondo claro para los botones */
   color: #555;
   border: 1px solid #ddd;
   padding: 8px 12px;
   border-radius: 8px;
-  /* Bordes más redondeados */
   cursor: pointer;
   font-size: 0.9em;
   display: flex;
@@ -207,15 +181,10 @@ code {
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-/* Estilos para el Card que envuelve el subtítulo "Análisis meteorológico en tiempo real" */
 .analysis-subtitle-card {
   display: inline-block;
-  /* Permite que el ancho se ajuste al contenido */
   width: fit-content;
-  /* Ajusta el ancho al contenido */
   margin-left: auto;
-  /* Centra el elemento horizontalmente */
   margin-right: auto;
 }
 
@@ -224,38 +193,29 @@ code {
   color: #555;
   margin: 0;
   text-align: center;
-  /* Centrar el texto del subtítulo */
+
 }
-
-
-/* --- KeyIndicatorsSection y KeyIndicatorCard Styles --- */
-
 .key-indicators-section .card-title {
   margin-bottom: 25px;
-  /* Más espacio debajo del título */
   color: #333;
-  /* Color oscuro para el título de la sección */
 }
 
 .indicators-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  /* Responsivo */
+
   gap: 20px;
-  /* Espacio entre tarjetas */
+
 }
 
 .key-indicator-card {
   color: white;
-  /* Color de texto por defecto para toda la tarjeta */
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  /* Sombra exterior */
   transition: transform 0.2s ease-in-out;
-  /* Transiciones suaves */
+
   overflow: hidden;
-  /* Asegura que los gradientes o contenido no se salgan */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -295,10 +255,6 @@ code {
   border-top: 5px solid #66bb6a;
   /* Verde */
 }
-
-/* Asegúrate de añadir más reglas nth-child si tienes más de 4 indicadores y quieres bordes diferentes */
-
-
 /* Header de la tarjeta */
 .indicator-header {
   display: flex;
@@ -307,11 +263,10 @@ code {
   margin-bottom: 10px;
   /* Espacio debajo del encabezado */
   padding-bottom: 8px;
-  /* Pequeño padding extra para el header visualmente */
+
 }
 
 .indicator-label-title {
-  /* Contenedor flex para el título y el icono */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -335,11 +290,9 @@ code {
   /* Hereda el color blanco */
 }
 
-
 /* Contenido principal de la tarjeta (el valor y la unidad) */
 .indicator-content-body {
   padding-top: 16px;
-  /* Espacio superior para el contenido */
 }
 
 .indicator-value-container {
@@ -354,9 +307,7 @@ code {
   /* 32px */
   font-weight: bold;
   line-height: 1;
-  /* Para que el número grande no tenga espacio extra */
   color: inherit;
-  /* Hereda el color blanco de .key-indicator-card */
 }
 
 .indicator-unit-badge {
@@ -380,7 +331,11 @@ code {
   color: inherit;
   /* Hereda el color blanco */
 }
-
+.temporal-analysis-section {
+  margin: 0 auto; /* ¡Centra el bloque horizontalmente! */
+  max-width: 800px; /* ¡Define un ancho máximo para que margin: auto funcione! */
+  width: 100%; /* Asegura que ocupe el ancho disponible hasta el max-width */
+}
 
 /* --- TemporalAnalysisSection --- */
 .temporal-analysis-section .card-title {
@@ -418,22 +373,23 @@ code {
 /* --- HourlyForecastTable --- */
 .hourly-forecast-table-container {
   margin-top: 20px;
+  width: 100%; 
 }
 
 .hourly-forecast-table-container h3 {
   font-size: 18px;
   color: #444;
   margin-bottom: 15px;
+  text-align: center; 
 }
 
 .hourly-table-wrapper {
   overflow-x: auto;
-  /* Permite desplazamiento horizontal en pantallas pequeñas */
+
   border: 1px solid #eee;
   /* Borde alrededor de la tabla */
   border-radius: 8px;
   padding: 5px;
-  /* Espacio interno */
 }
 
 .hourly-forecast-table-container table {
@@ -441,7 +397,6 @@ code {
   border-collapse: collapse;
   text-align: left;
   min-width: 600px;
-  /* Asegura que la tabla no se colapse demasiado en móvil */
 }
 
 .hourly-forecast-table-container th,
@@ -457,7 +412,6 @@ code {
   color: #555;
   font-size: 14px;
   position: sticky;
-  /* Encabezado pegajoso para scroll horizontal */
   top: 0;
   z-index: 1;
 }
@@ -552,10 +506,10 @@ code {
   .refresh-button,
   .settings-button {
     flex-grow: 1;
-    /* Permite que los botones se expandan */
+ 
     width: auto;
-    /* Ancho automático para flex-grow */
+
     margin: 0;
-    /* Elimina márgenes verticales extra */
+
   }
 }
