@@ -12,10 +12,8 @@ export default defineConfig({
       devOptions: {
         enabled: true
       },
-      // Incluye sol2.png en los assets que Workbox debe precachear
       includeAssets: [
         'favicon.ico', 'apple-touch-icon.png', 'favicon-32x32.png', 'favicon-16x16.png',
-        'sol2.png' // Asegúrate de que sol2.png esté en tu carpeta public
       ],
       manifest: {
         id: '/dashboard/',
@@ -25,24 +23,25 @@ export default defineConfig({
         theme_color: '#D3D1D1',
         start_url: '/dashboard/',
         icons: [
+          // ¡IMPORTANTE! Se eliminan las referencias a 'sol2.png' aquí y se restauran los nombres pwa- genéricos.
           {
-            src: 'sol2.png', // ¡IMPORTANTE! Aquí solo el nombre del archivo si está en public
+            src: 'pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'sol2.png', // ¡IMPORTANTE! Aquí solo el nombre del archivo
+            src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: "sol2.png", // ¡IMPORTANTE! Aquí solo el nombre del archivo
+            src: "pwa-maskable-192x192.png",
             sizes: "192x192",
             type: "image/png",
             purpose: "maskable"
           },
           {
-            src: "sol2.png", // ¡IMPORTANTE! Aquí solo el nombre del archivo
+            src: "pwa-maskable-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable"
