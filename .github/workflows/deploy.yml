@@ -4,18 +4,38 @@ on:
   push:
     branches: [main]
 
+# Permisos necesarios a nivel de job
+permissions:
+  contents: write  # Permite escribir en el repositorio
+  pages: write     # Permite desplegar en GitHub Pages
+  id-token: write  # Necesario para autenticación
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Importante para el historial completo de Git
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: 'npm'  # Cachea dependencias para builds más rápidos
+
       - run: npm install
       - run: npm run build
+
+      - name: Verify build output
+        run: |
+          ls -la dist/
+          echo "Contenido de assets:"
+          ls -la dist/assets/
+
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           enable_jekyll: false
+          force_orphan: true  # Mantiene el historial de la rama limpio
+          keep_files: false   # Limpia el despliegue anterior
