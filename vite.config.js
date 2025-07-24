@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/sky-view-reports/', // Cambiar de /Dashboard/ a /sky-view-reports/
+  base: '/Dashboard/', // Cambiar de /sky-view-reports/ a /Dashboard/
   build: {
     outDir: 'dist',
     assetsDir: 'assets'
