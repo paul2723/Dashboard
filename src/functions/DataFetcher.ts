@@ -5,7 +5,7 @@ interface FetchParams {
   latitude: number;
   longitude: number;
   timezone: string;
-  refreshTrigger: number; 
+  refreshTrigger: number;
 }
 export interface CurrentData {
   time: string;
@@ -105,7 +105,7 @@ export const useDataFetcher = ({ latitude, longitude, timezone, refreshTrigger }
           throw new Error(`Error HTTP: ${response.status} - ${response.statusText}. Detalles: ${errorText}`);
         }
         const jsonData: OpenMeteoResponse = await response.json();
-        console.log("[DataFetcher] Datos recibidos:", jsonData); 
+        console.log("[DataFetcher] Datos recibidos:", jsonData);
         console.log("[DataFetcher] Hora de la observación actual:", jsonData?.current?.time);
         setData(jsonData);
       } catch (err) {
@@ -114,10 +114,10 @@ export const useDataFetcher = ({ latitude, longitude, timezone, refreshTrigger }
         } else {
           setError("Un error desconocido ocurrió.");
         }
-        console.error("[DataFetcher] Error durante el fetch:", err); 
+        console.error("[DataFetcher] Error durante el fetch:", err);
       } finally {
         setLoading(false);
-        console.log("[DataFetcher] Fetch finalizado. Loading:", false); 
+        console.log("[DataFetcher] Fetch finalizado. Loading:", false);
       }
     };
 
