@@ -3,8 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: './', // Cambia de '/' a './' para rutas relativas
-  build: {
-    outDir: 'dist'
-  }
+  base: '/sky-view-reports/',
 })
