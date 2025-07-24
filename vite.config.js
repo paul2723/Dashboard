@@ -3,9 +3,19 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Dashboard/', // Cambiar de /sky-view-reports/ a /Dashboard/
+  base: '/Dashboard/',
   build: {
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
+  server: {
+    mimeTypes: {
+      'application/javascript': ['js']
+    }
   }
 })
