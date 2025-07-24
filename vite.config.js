@@ -3,19 +3,16 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Dashboard/',
+  base: './', // Base relativa para evitar problemas de MIME
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     rollupOptions: {
       output: {
-        manualChunks: undefined,
-      },
-    },
-  },
-  server: {
-    mimeTypes: {
-      'application/javascript': ['js']
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]'
+      }
     }
   }
 })
