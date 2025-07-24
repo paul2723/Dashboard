@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
     "target": "ESNext",
-    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx",
     "strict": true,
-    "noEmit": false,  // Cambiado a false para proyectos compuestos
-    "types": ["node"],
-    "outDir": "./dist-node"  // Añade un directorio de salida específico
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["src", "vite.config.ts"]
 }
